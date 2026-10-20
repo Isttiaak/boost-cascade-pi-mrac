@@ -1,5 +1,7 @@
 # Cascade PI-based MRAC of a DC-DC boost converter — MATLAB/Simulink recreation
 
+[![Verify recreation](https://github.com/Isttiaak/boost-cascade-pi-mrac/actions/workflows/verify.yml/badge.svg)](https://github.com/Isttiaak/boost-cascade-pi-mrac/actions/workflows/verify.yml)
+
 Recreation of C. Yanarates and Z. Zhou, "Design and Cascade PI Controller-Based Robust Model
 Reference Adaptive Control of DC-DC Boost Converter", *IEEE Access*, vol. 10, pp. 44909–44922,
 2022, doi:[10.1109/ACCESS.2022.3169591](https://doi.org/10.1109/ACCESS.2022.3169591).
@@ -13,7 +15,7 @@ compares the Simulink results with an independent Python implementation.
 
 ```matlab
 cd simulink
-build_boost_models                      % writes ../models/*.slx
+build_boost_models                      % writes ../models/*.slx (or use the committed ones)
 open_system('boost_cascade_pi_mrac_sps')
 boost_mrac_params('vref', [30 40 50], 't_vref', [0.2 0.4]);   % Fig. 18 test
 out = sim('boost_cascade_pi_mrac_sps', 'StopTime', '0.5');
@@ -22,7 +24,8 @@ plot(out.v)
 
 Products: Simulink for the `diffeq` and `average` plants; Simscape and Simscape Electrical
 (Specialized Power Systems) for the `sps` circuit plant; Simulink Control Design for
-`run_frestimate_study`. Built and tested with R2025a.
+`run_frestimate_study`. Built and tested with R2025a. The `.slx` files in `models/` were built by
+the CI with R2025a; older releases can rebuild them with `build_boost_models`.
 
 ## Models
 
@@ -44,31 +47,68 @@ reference model) → duty-cycle limiter 0…0.9 → PWM modulator (sawtooth at 2
 `v`, `iL`, `d`, `theta`, `ym`, `iref`, `vref` logged every Ts. All parameters are in the struct
 `BM` created by `simulink/boost_mrac_params.m`.
 
-## What the CI checks
+## Verified results (GitHub Actions, MATLAB R2025a)
+
+Every implementation runs the same 21 scenarios (Figs. 7, 13–18, 22–24) and is scored on the same
+129 metrics as the Python reference (`python/scenarios.py`, `simulink/scenario_metrics.m`).
+
+| Implementation | Gating metrics within tolerance |
+|---|---|
+| MATLAB scripts (`matlab/boost_sim.m`) | 95 / 95 |
+| Simulink, differential-equation plant (Fig. 6) | 95 / 95 |
+| Simulink, Specialized Power Systems circuit | 95 / 95 |
+
+30 → 40 V reference step (Table 10 definitions):
+
+| Metric | Paper | Python | Simulink diffeq | Simulink circuit |
+|---|---|---|---|---|
+| Cascade PI peak (V) | 44.70 | 44.62 | 44.67 | 44.64 |
+| Cascade PI overshoot (% of 40 V) | 11.74 | 11.54 | 11.68 | 11.60 |
+| MRAC as written, peak (V) | 41.49 | 44.55 | 44.65 | 44.57 |
+| MRAC model-following, peak (V) | — | 41.65 | 41.68 | 41.82 |
+| θ before the 0.2 s step, γ = 0.1 / 0.5 / 1 | ≈0.95 / 0.75 / 0.5 | 0.942 / 0.710 / 0.426 | 0.942 / 0.710 / 0.426 | 0.942 / 0.711 / 0.426 |
+
+Frequency response with Simulink Control Design (`frestimate`, circuit plant, D = 0.5), fitted with
+1 zero and 2 poles like Eq. 2:
+
+| Source | DC gain | Zero (rad/s) | Poles (rad/s) | ζ |
+|---|---|---|---|---|
+| Paper Eq. 2 | 76.4 | +474 | −504, −12 516 | 2.59 |
+| Eq. 31 (Table 3 values) | 80 | +40 000 | −71.0 ± 2382.6j | 0.030 |
+| frestimate, amplitude 0.03 (paper) | 80.3 | +17 719 | −813.5 ± 1841.9j | 0.40 |
+| frestimate, amplitude 0.0005 | 81.4 | +44 271 | −72.8 ± 2381.9j | 0.031 |
+
+With Simscape Electrical's default devices (MOSFET Ron = 0.1 Ω, diode Vf = 0.8 V) the single PI no
+longer limit-cycles: 30 → 40 V peak 40.06 V and 0.16 % overshoot, close to the paper's single-PI
+column (40.16 V, 0.41 %).
+
+## What the CI runs
 
 | Job | What it does |
 |---|---|
-| Python reference | `python/run_all.py` (all figures and tables) and `python/export_reference_metrics.py` (scenario metrics) |
-| MATLAB scripts vs Python | `matlab/run_all.m`, then the same scenarios with `matlab/boost_sim.m` |
-| Simulink diffeq / sps vs Python | builds every model, runs the 21 scenarios of `simulink/scenario_list.m` (Figs. 7, 13–18, 22–24), compares 129 metrics with Python |
-| frestimate | Section II-A with Simulink Control Design: sinestream amplitude 0.03 (paper) and 0.0005 |
+| Python reference | `python/run_all.py` (all figures and tables) and `python/export_reference_metrics.py` |
+| MATLAB scripts vs Python | `matlab/run_all.m`, then the 21 scenarios with `matlab/boost_sim.m` |
+| Simulink diffeq / sps vs Python | builds every model, runs the 21 scenarios, compares the metrics |
+| frestimate | Section II-A with Simulink Control Design, sinestream amplitude 0.03 and 0.0005 |
 
-Results (models, figures, tables, logs) are attached to each run and pushed to the `ci-results`
-branch. Scenarios and metrics are defined once per language: `python/scenarios.py` and
-`simulink/scenario_list.m` + `simulink/scenario_metrics.m`.
+Each job pushes its output (log, tables, figures, models, comparison) to the branch
+`ci-out/<job>`; the summary job collects everything on the branch `ci-results`.
 
 ## Folders
 
 ```
 simulink/   model-building code, study runner, comparison, CI entry point (ci_run.m)
+models/     .slx files built by the CI (R2025a)
 matlab/     plain-MATLAB recreation (no Simulink): equations, Figs. 1, 5, 7, 13-18, Tables 6, 10
 python/     independent Python recreation used as the reference
 ```
 
-## Known issues in the paper (details in the recreation report)
+## Known issues in the paper
 
 - Eq. 32 and Eq. 40 divide only some coefficients by 80; evaluated correctly, Eq. 31 has a lightly
   damped LC resonance (ζ ≈ 0.03 at 2384 rad/s) and a RHP zero at 40 000 rad/s.
 - The printed Eq. 51 numerator (−0.0625 s) makes the reference loop unstable; −0.00625 s follows
   from Eq. 31 and Table 8 and is used here.
 - The single PI of Eq. 33 is unstable on the lossless converter and settles into a limit cycle.
+- Eqs. 54–56 as written make the MRAC behave like the plain cascade PI at γ = 0.04; the paper's
+  MRAC step response needs the model-following set-point.
