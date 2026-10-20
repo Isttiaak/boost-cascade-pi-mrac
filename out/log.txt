@@ -1,0 +1,83 @@
+==== environment ====
+MATLAB 25.1.0.2973910 (R2025a) Update 1 on GLNXA64
+  Control System Toolbox                        25.1
+  MATLAB                                        25.1
+  Simscape                                      25.1
+  Simscape Electrical                           25.1
+  Simulink                                      25.1
+  Simulink Control Design                       25.1
+  license Simulink                   1
+  license Simscape                   1
+  license Power_System_Blocks        1
+  license Control_Toolbox            1
+  license Simulink_Control_Design    1
+  simulink/Discrete/Discrete-Time Integrator  [in 1 out 1 L 0 R 0]  IntegratorMethod, gainval, ExternalReset, InitialConditionSource, InitialCondition, InitialConditionSetting, SampleTime, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, ShowSaturationPort, ShowStatePort, IgnoreLimit, StateName, StateMustResolveToSignalObject, StateStorageClass, RTWStateStorageTypeQualifier, StateSignalObject
+  simulink/Discrete/Discrete Transfer Fcn  [in 1 out 1 L 0 R 0]  NumeratorSource, Numerator, DenominatorSource, Denominator, InitialStatesSource, InitialStates, InputProcessing, ExternalReset, InitialDenominatorStates, FilterStructure, SampleTime, a0EqualsOne, NumCoefMin, NumCoefMax, DenCoefMin, DenCoefMax, OutMin, OutMax, StateDataTypeStr, MultiplicandDataTypeStr, NumCoefDataTypeStr, DenCoefDataTypeStr, NumProductDataTypeStr, DenProductDataTypeStr, NumAccumDataTypeStr, DenAccumDataTypeStr, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, StateName, StateMustResolveToSignalObject, StateSignalObject, StateStorageClass, RTWStateStorageTypeQualifier
+  simulink/Discrete/Zero-Order Hold  [in 1 out 1 L 0 R 0]  SampleTime
+  simulink/Sources/Repeating Sequence  [in 0 out 1 L 0 R 0]  rep_seq_t, rep_seq_y
+  simulink/Sources/Step  [in 0 out 1 L 0 R 0]  Time, Before, After, OutDataTypeStr, SampleTime, VectorParams1D, ZeroCross
+  simulink/Logic and Bit Operations/Relational Operator  [in 2 out 1 L 0 R 0]  Operator, InputSameDT, OutDataTypeStr, ZeroCross, SampleTime, RndMeth
+  simulink/Signal Routing/Switch  [in 3 out 1 L 0 R 0]  Criteria, Threshold, InputSameDT, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, ZeroCross, SampleTime, AllowDiffInputSizes
+  simulink/Continuous/Integrator  [in 1 out 1 L 0 R 0]  ExternalReset, InitialConditionSource, InitialCondition, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, WrapState, WrappedStateUpperValue, WrappedStateLowerValue, ShowSaturationPort, ShowStatePort, AbsoluteTolerance, IgnoreLimit, ZeroCross, ContinuousStateAttributes
+  simulink/Sinks/To Workspace  [in 1 out 0 L 0 R 0]  VariableName, MaxDataPoints, Decimation, SaveFormat, Save2DSignal, FixptAsFi, SampleTime
+  sps_lib/powergui  [in 0 out 0 L 0 R 0]  SimulationMode, SampleTime, frequency, Iterations, frequencyindice, Pbase, ErrMax, UnitsV, UnitsW, buscounter, FunctionMessages, echomessages, EnableUseOfTLC, CurrentSourceSwitches, DisableSnubberDevices, DisableRonSwitches, DisableVfSwitches, DisplayEquations, AutomaticDiscreteSolvers, SolverType, Interpol, ExternalGateDelay, methode, Ts, x0status, SPID, SwTol, HookPort, NonlinearTolerance, nMaxIteration, ContinueOnMaxIteration, RestoreLinks, ResistiveCurrentMeasurement, Frange, Ylog, Xlog, ShowGrid, save, variable, structure, ZoomFFT, StartTime, cycles, DisplayStyle, fundamental, FreqAxis, MaxFrequency, frequencyindicesteady, RmsSteady, display
+  sps_lib/Sources/Controlled Voltage Source  [in 1 out 0 L 1 R 1]  Initialize, Source_Type, Amplitude, Phase, Frequency, Measurements
+  sps_lib/Passives/Series RLC Branch  [in 0 out 0 L 1 R 1]  BranchType, Resistance, Inductance, SetiL0, InitialCurrent, Capacitance, Setx0, InitialVoltage, Measurements
+  sps_lib/Power Electronics/Mosfet  [in 1 out 1 L 1 R 1]  Ron, Lon, Rd, Vfd, IC, Rs, Cs, Measurements
+  sps_lib/Power Electronics/Diode  [in 0 out 1 L 1 R 1]  Ron, Lon, Vf, IC, UseSnubber, Rs, Cs, Measurements
+  sps_lib/Power Electronics/Ideal Switch  [in 1 out 1 L 1 R 1]  Ron, Lon, IC, Rs, Cs, Measurements
+  sps_lib/Sensors and Measurements/Voltage Measurement  [in 0 out 1 L 2 R 0]  PhasorSimulation, OutputType, PSBequivalent
+  sps_lib/Sensors and Measurements/Current Measurement  [in 0 out 1 L 1 R 1]  PhasorSimulation, OutputType, PSBequivalent
+==== end environment ====
+::notice title=probe_environment::MATLAB 25.1.0.2973910 (R2025a) Update 1%0Asimulink/Discrete/Discrete-Time Integrator  [in 1 out 1 L 0 R 0]  IntegratorMethod, gainval, ExternalReset, InitialConditionSource, InitialCondition, InitialConditionSetting, SampleTime, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, ShowSaturationPort, ShowStatePort, IgnoreLimit, StateName, StateMustResolveToSignalObject, StateStorageClass, RTWStateStorageTypeQualifier, StateSignalObject%0Asimulink/Discrete/Discrete Transfer Fcn  [in 1 out 1 L 0 R 0]  NumeratorSource, Numerator, DenominatorSource, Denominator, InitialStatesSource, InitialStates, InputProcessing, ExternalReset, InitialDenominatorStates, FilterStructure, SampleTime, a0EqualsOne, NumCoefMin, NumCoefMax, DenCoefMin, DenCoefMax, OutMin, OutMax, StateDataTypeStr, MultiplicandDataTypeStr, NumCoefDataTypeStr, DenCoefDataTypeStr, NumProductDataTypeStr, DenProductDataTypeStr, NumAccumDataTypeStr, DenAccumDataTypeStr, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, StateName, StateMustResolveToSignalObject, StateSignalObject, StateStorageClass, RTWStateStorageTypeQualifier%0Asimulink/Discrete/Zero-Order Hold  [in 1 out 1 L 0 R 0]  SampleTime%0Asimulink/Sources/Repeating Sequence  [in 0 out 1 L 0 R 0]  rep_seq_t, rep_seq_y%0Asimulink/Sources/Step  [in 0 out 1 L 0 R 0]  Time, Before, After, OutDataTypeStr, SampleTime, VectorParams1D, ZeroCross%0Asimulink/Logic and Bit Operations/Relational Operator  [in 2 out 1 L 0 R 0]  Operator, InputSameDT, OutDataTypeStr, ZeroCross, SampleTime, RndMeth%0Asimulink/Signal Routing/Switch  [in 3 out 1 L 0 R 0]  Criteria, Threshold, InputSameDT, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, ZeroCross, SampleTime, AllowDiffInputSizes%0Asimulink/Continuous/Integrator  [in 1 out 1 L 0 R 0]  ExternalReset, InitialConditionSource, InitialCondition, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, WrapState, WrappedStateUpperValue, WrappedStateLowerValue, ShowSaturationPort, ShowStatePort, AbsoluteTolerance, IgnoreLimit, ZeroCross, ContinuousStateAttributes%0Asimulink/Sinks/To Workspace  [in 1 out 0 L 0 R 0]  VariableName, MaxDataPoints, Decimation, SaveFormat, Save2DSignal, FixptAsFi, SampleTime%0Asps_lib/powergui  [in 0 out 0 L 0 R 0]  SimulationMode, SampleTime, frequency, Iterations, frequencyindice, Pbase, ErrMax, UnitsV, UnitsW, buscounter, FunctionMessages, echomessages, EnableUseOfTLC, CurrentSourceSwitches, DisableSnubberDevices, DisableRonSwitches, DisableVfSwitches, DisplayEquations, AutomaticDiscreteSolvers, SolverType, Interpol, ExternalGateDelay, methode, Ts, x0status, SPID, SwTol, HookPort, NonlinearTolerance, nMaxIteration, ContinueOnMaxIteration, RestoreLinks, ResistiveCurrentMeasurement, Frange, Ylog, Xlog, ShowGrid, save, variable, structure, ZoomFFT, StartTime, cycles, DisplayStyle, fundamental, FreqAxis, MaxFrequency, frequencyindicesteady, RmsSteady, display%0Asps_lib/Sources/Controlled Voltage Source  [in 1 out 0 L 1 R 1]  Initialize, Source_Type, Amplitude, Phase, Frequency, Measurements%0Asps_lib/Passives/Series RLC Branch  [in 0 out 0 L 1 R 1]  BranchType, Resistance, Inductance, SetiL0, InitialCurrent, Capacitance, Setx0, InitialVoltage, Measurements%0Asps_lib/Power Electronics/Mosfet  [in 1 out 1 L 1 R 1]  Ron, Lon, Rd, Vfd, IC, Rs, Cs, Measurements%0Asps_lib/Power Electronics/Diode  [in 0 out 1 L 1 R 1]  Ron, Lon, Vf, IC, UseSnubber, Rs, Cs, Measurements%0Asps_lib/Power Electronics/Ideal Switch  [in 1 out 1 L 1 R 1]  Ron, Lon, IC, Rs, Cs, Measurements%0Asps_lib/Sensors and Measurements/Voltage Measurement  [in 0 out 1 L 2 R 0]  PhasorSimulation, OutputType, PSBequivalent%0Asps_lib/Sensors and Measurements/Current Measurement  [in 0 out 1 L 1 R 1]  PhasorSimulation, OutputType, PSBequivalent
+  built /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models/boost_single_pi_sps.slx
+  built /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models/boost_cascade_pi_sps.slx
+  built /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models/boost_cascade_pi_mrac_sps.slx
+  built /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models/boost_cascade_pi_mrac_mf_sps.slx
+  built /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models/boost_openloop_models.slx
+  built /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models/boost_frest_sps.slx
+build_boost_models: 6 models in /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/models
+  sanity v_sps        mean over 40-50 ms =   39.991   max =   76.501
+  sanity iL_sps       mean over 40-50 ms =    5.001   max =   87.430
+  sanity v_de_diode   mean over 40-50 ms =   39.992   max =   76.528
+  sanity v_de_bidir   mean over 40-50 ms =   40.084   max =   76.528
+  sanity v_tf         mean over 40-50 ms =   40.095   max =   76.488
+  model diagrams in /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/model_diagrams
+  ol_diode          1.7 s  peak=76.501  tpeak=0.0013  vmean_end=39.991  ripple_end=0.17361
+  ol_bidir          1.7 s  peak=76.528  tpeak=0.0013  vmean_end=40.085  ripple_end=2.1654
+  lr_g0.1          10.9 s  theta_t0199=0.94179  theta_t0260=0.88895  theta_t0399=0.88786  theta_t0599=0.82139  vmin_tail=49.922  vmax_tail=50.063  emax_step=7.0128  emin_step=-2.3086
+  lr_g0.5           9.7 s  theta_t0199=0.71108  theta_t0260=0.45586  theta_t0399=0.44245  theta_t0599=0.14664  vmin_tail=49.893  vmax_tail=50.112  emax_step=6.9608  emin_step=-2.453
+  lr_g1             8.5 s  theta_t0199=0.42572  theta_t0260=0.09595  theta_t0399=0.059044  theta_t0599=0.37333  vmin_tail=30.601  vmax_tail=73.742  emax_step=5.6147  emin_step=-1.8567
+  f16_pi            6.8 s  su_peak=51.414  su_tpeak=0.00076  su_min=26.075  ls_min=37.843  ls_max=42.472  osc_amp=1.0653
+  f17_pi            6.4 s  su_peak=41.079  su_tpeak=0.00082  su_min=23.219  vs_min=38.32  vs_max=65.34  osc_amp=0.4026
+  f18_pi            6.5 s  RiseTime=0.00059614  SettlingTime=0.19993  SettlingMin=34.048  SettlingMax=41.089  Overshoot=2.7213  Peak=41.089  PeakTime=0.13855  step3_peak=51.992
+  exp_pi            2.6 s  RiseTime=0.015697  SettlingTime=NaN  Overshoot=7.2482  Peak=41.087  PeakTime=0.0855
+  f16_cascade       8.7 s  su_peak=45.628  su_tpeak=0.00205  su_min=36.946  ls_min=37.591  ls_max=40.968  osc_amp=0.0586
+  f17_cascade       9.0 s  su_peak=48.335  su_tpeak=0.0029  su_min=35.689  vs_min=39.599  vs_max=41.003  osc_amp=0.16499
+  f18_cascade       8.7 s  RiseTime=0.00097776  SettlingTime=0.015841  SettlingMin=36.046  SettlingMax=44.64  Overshoot=11.6  Peak=44.64  PeakTime=0.00285  step3_peak=54.544
+  exp_cascade       2.7 s  RiseTime=0.00105  SettlingTime=0.01485  Overshoot=43.28  Peak=46.492  PeakTime=0.00285
+  f16_mrac          8.9 s  su_peak=45.6  su_tpeak=0.0021  su_min=36.957  ls_min=37.61  ls_max=41.019  osc_amp=0.053109
+  f17_mrac          8.3 s  su_peak=48.276  su_tpeak=0.0029  su_min=35.452  vs_min=39.634  vs_max=40.907  osc_amp=0.11951
+  f18_mrac          8.9 s  RiseTime=0.00096963  SettlingTime=0.015301  SettlingMin=35.982  SettlingMax=44.572  Overshoot=11.43  Peak=44.572  PeakTime=0.00275  step3_peak=54.615
+  exp_mrac          3.0 s  RiseTime=0.0010592  SettlingTime=0.017566  Overshoot=43.313  Peak=46.497  PeakTime=0.00275
+  f16_mrac_mf       8.5 s  su_peak=47.266  su_tpeak=0.00855  su_min=36.011  ls_min=37.541  ls_max=40.979  osc_amp=0.060901
+  f17_mrac_mf       9.3 s  su_peak=46.469  su_tpeak=0.0072  su_min=36.47  vs_min=39.606  vs_max=40.918  osc_amp=0.19458
+  f18_mrac_mf       8.7 s  RiseTime=0.0021803  SettlingTime=0.013565  SettlingMin=36.036  SettlingMax=41.82  Overshoot=4.5504  Peak=41.82  PeakTime=0.00425  step3_peak=52.062
+  exp_mrac_mf       3.0 s  RiseTime=0.0016036  SettlingTime=0.01665  Overshoot=14.156  Peak=42.123  PeakTime=0.00405
+run_simulink_study(sps): 21 scenarios in 2.4 min
+  wrote /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/metrics_simulink_sps.csv
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig07_openloop_models.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig13_tracking_error.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig14_theta.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig15_output_voltage.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig16_load_steps.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig17_load_and_vin_steps.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig18_reference_steps.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/fig22_24_experiment.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/verify_overlay_f18.png
+  figure /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/simulink_sps/figures/verify_overlay_theta.png
+compare_metrics(simulink_sps): 98/98 gating metrics within tolerance, 5 informational differ
+paper_checks(simulink_sps): 25/25 checks as expected, 4 informational
+ci_run(simulink) finished in 4.9 min
+  check reference vs simulink_sps                passed
+  check paper checks (simulink_sps)              passed
