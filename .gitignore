@@ -1,0 +1,14 @@
+# generated outputs
+results/
+results_matlab/
+ci/
+# Simulink / MATLAB build and cache files
+slprj/
+*.slxc
+*.asv
+*.autosave
+*.mex*
+*~
+# Python
+__pycache__/
+*.pyc

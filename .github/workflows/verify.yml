@@ -1,0 +1,174 @@
+name: Verify recreation (Python, MATLAB, Simulink R2025a)
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATLAB_RELEASE: R2025a
+  MATLAB_PRODUCTS: Simulink Simscape Simscape_Electrical Control_System_Toolbox Simulink_Control_Design
+
+jobs:
+  python:
+    name: Python reference
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install packages
+        run: pip install --quiet numpy scipy matplotlib numba
+      - name: Python recreation (figures, tables) and scenario reference
+        working-directory: python
+        run: |
+          python run_all.py
+          python export_reference_metrics.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: python-reference
+          path: results/
+
+  matlab-scripts:
+    name: MATLAB scripts vs Python
+    needs: python
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Virtual display and fonts (figure export)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb fonts-liberation fonts-dejavu-core > /dev/null
+          Xvfb :99 -screen 0 2560x1600x24 > /dev/null 2>&1 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+      - uses: matlab-actions/setup-matlab@v2
+        with:
+          release: ${{ env.MATLAB_RELEASE }}
+          products: ${{ env.MATLAB_PRODUCTS }}
+          cache: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-reference
+          path: results/
+      - name: Run matlab/run_all.m and compare boost_sim.m with Python
+        uses: matlab-actions/run-command@v2
+        with:
+          command: addpath('simulink'); ci_run('matlab_scripts')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: matlab-scripts
+          path: results/matlab_scripts/
+          if-no-files-found: ignore
+
+  simulink:
+    name: Simulink ${{ matrix.plant }} vs Python
+    needs: python
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    strategy:
+      fail-fast: false
+      matrix:
+        plant: [diffeq, sps]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Virtual display and fonts (figure and diagram export)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb fonts-liberation fonts-dejavu-core > /dev/null
+          Xvfb :99 -screen 0 2560x1600x24 > /dev/null 2>&1 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+      - uses: matlab-actions/setup-matlab@v2
+        with:
+          release: ${{ env.MATLAB_RELEASE }}
+          products: ${{ env.MATLAB_PRODUCTS }}
+          cache: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: python-reference
+          path: results/
+      - name: Build the models, run every scenario, compare with Python
+        uses: matlab-actions/run-command@v2
+        with:
+          command: addpath('simulink'); ci_run('simulink', '${{ matrix.plant }}')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: simulink-${{ matrix.plant }}
+          path: results/simulink_${{ matrix.plant }}/
+          if-no-files-found: ignore
+
+  frestimate:
+    name: Frequency response with frestimate (Section II-A)
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - name: Virtual display and fonts (figure export)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb fonts-liberation fonts-dejavu-core > /dev/null
+          Xvfb :99 -screen 0 2560x1600x24 > /dev/null 2>&1 &
+          echo "DISPLAY=:99" >> "$GITHUB_ENV"
+      - uses: matlab-actions/setup-matlab@v2
+        with:
+          release: ${{ env.MATLAB_RELEASE }}
+          products: ${{ env.MATLAB_PRODUCTS }}
+          cache: true
+      - name: frestimate on the circuit model, amplitudes 0.03 and 0.0005
+        uses: matlab-actions/run-command@v2
+        with:
+          command: addpath('simulink'); ci_run('frestimate')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frestimate
+          path: results/frestimate/
+          if-no-files-found: ignore
+
+  report:
+    name: Summary and ci-results branch
+    needs: [python, matlab-scripts, simulink, frestimate]
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: ci/
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Write the summary
+        env:
+          JOB_RESULTS: >-
+            python=${{ needs.python.result }}
+            matlab-scripts=${{ needs.matlab-scripts.result }}
+            simulink=${{ needs.simulink.result }}
+            frestimate=${{ needs.frestimate.result }}
+        run: |
+          python python/ci_summary.py ci "$JOB_RESULTS" > ci/SUMMARY.md
+          cat ci/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish models, figures and tables to the ci-results branch
+        run: |
+          rm -rf ci/python-reference/reference/traces_python
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan ci-results-tmp
+          git rm -rf --cached . > /dev/null
+          git add -f ci
+          git commit -q -m "CI results of run ${{ github.run_number }} (${{ github.sha }}) [skip ci]"
+          git push -f origin HEAD:ci-results
