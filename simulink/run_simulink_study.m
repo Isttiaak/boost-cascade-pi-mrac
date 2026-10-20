@@ -3,7 +3,8 @@ function R = run_simulink_study(plant, outdir, varargin)
 %   R = run_simulink_study('diffeq', outdir)   differential-equation plant
 %   R = run_simulink_study('sps', outdir)      circuit plant (Simscape Electrical)
 %   R = run_simulink_study(..., 'models', dir)       folder with the built models
-%   R = run_simulink_study(..., 'pytraces', dir)     add overlays with the Python traces
+%   R = run_simulink_study(..., 'reftraces', dir)    overlay the MATLAB reference traces
+%                                                    (EXPORT_REFERENCE)
 %   R = run_simulink_study(..., 'Ron_sw', 0.1, ...)  extra BM overrides
 %
 %   Writes  <outdir>/metrics_simulink_<plant>.csv   (scenario, metric, value)
@@ -11,14 +12,14 @@ function R = run_simulink_study(plant, outdir, varargin)
 %   Returns a containers.Map scenario name -> result struct (see run_case).
 root = setup_paths();
 modeldir = fullfile(root, 'models');
-pytraces = '';
+reftraces = '';
 over = {};
 k = 1;
 while k <= numel(varargin)
     if strcmp(varargin{k}, 'models')
         modeldir = varargin{k + 1};
-    elseif strcmp(varargin{k}, 'pytraces')
-        pytraces = varargin{k + 1};
+    elseif strcmp(varargin{k}, 'reftraces')
+        reftraces = varargin{k + 1};
     else
         over(end + 1:end + 2) = varargin(k:k + 1); %#ok<AGROW>
     end
@@ -56,7 +57,7 @@ for i = 1:numel(S)
 end
 fprintf('run_simulink_study(%s): %d scenarios in %.1f min\n', plant, numel(S), toc(tStudy) / 60);
 write_metrics(fullfile(outdir, sprintf('metrics_simulink_%s.csv', plant)), rows);
-plot_study_figures(R, plant, fullfile(outdir, 'figures'), pytraces);
+plot_study_figures(R, plant, fullfile(outdir, 'figures'), reftraces);
 bdclose('all');
 end
 

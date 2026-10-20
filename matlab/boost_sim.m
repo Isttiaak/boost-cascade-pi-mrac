@@ -1,5 +1,5 @@
 function res = boost_sim(T_end, plant, ctrl, prm, opts)
-%BOOST_SIM  Boost converter + controller simulation (mirror of python/boost_sim.py).
+%BOOST_SIM  Boost converter + controller simulation (plain MATLAB, no Simulink).
 %
 %   res = boost_sim(T_end, plant, ctrl, prm, opts)
 %

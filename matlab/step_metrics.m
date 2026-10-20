@@ -1,5 +1,5 @@
 function S = step_metrics(t, y, yfinal, yinit, settle_ref)
-%STEP_METRICS  MATLAB-stepinfo-style metrics (mirror of python/tftools.stepinfo).
+%STEP_METRICS  MATLAB-stepinfo-style metrics (definitions of MATLAB stepinfo).
 %   S = step_metrics(t, y, yfinal, yinit, settle_ref)
 %   settle_ref = 'peak_error' (default): settling band = 2% of max|y - yfinal|.
 %                This is the definition that reproduces the paper's Table 6 exactly.

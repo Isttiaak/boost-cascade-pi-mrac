@@ -1,4 +1,4 @@
-name: Verify recreation (Python, MATLAB, Simulink R2025a)
+name: Verify recreation (MATLAB / Simulink)
 
 on:
   push:
@@ -10,45 +10,19 @@ on:
 permissions:
   contents: write
 
-# every job pushes its output folder to the branch ci-out/<job> (see .github/push_results.sh)
+# Every job runs MATLAB code only (simulink/ci_run.m). Each job pushes its output
+# folder to the branch ci-out/<job> (.github/push_results.sh); the report job
+# collects everything on the branch ci-results.
 
 env:
   MATLAB_RELEASE: R2025a
   MATLAB_PRODUCTS: Simulink Simscape Simscape_Electrical Control_System_Toolbox Simulink_Control_Design
+  COMPAT_RELEASE: R2022b
+  COMPAT_PRODUCTS: Simulink Simscape Simscape_Electrical
 
 jobs:
-  python:
-    name: Python reference
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install packages
-        run: pip install --quiet numpy scipy matplotlib numba
-      - name: Python recreation (figures, tables) and scenario reference
-        working-directory: python
-        run: |
-          python run_all.py
-          python export_reference_metrics.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: python-reference
-          path: results/
-      - name: Push output to branch ci-out/python
-        if: always()
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          mkdir -p ci_python && cp -r results/tables results/figures ci_python/ 2>/dev/null || true
-          cp results/reference/metrics_python.csv ci_python/ 2>/dev/null || true
-          .github/push_results.sh ci_python ci-out/python
-
-  matlab-scripts:
-    name: MATLAB scripts vs Python
-    needs: python
+  reference:
+    name: MATLAB reference and paper analysis
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -64,29 +38,25 @@ jobs:
           release: ${{ env.MATLAB_RELEASE }}
           products: ${{ env.MATLAB_PRODUCTS }}
           cache: true
-      - uses: actions/download-artifact@v4
-        with:
-          name: python-reference
-          path: results/
-      - name: Run matlab/run_all.m and compare boost_sim.m with Python
+      - name: matlab/run_all.m, scenario reference of matlab/boost_sim.m, paper checks
         uses: matlab-actions/run-command@v2
         with:
-          command: addpath('simulink'); ci_run('matlab_scripts')
+          command: addpath('simulink'); ci_run('reference')
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: matlab-scripts
-          path: results/matlab_scripts/
+          name: reference
+          path: results/reference/
           if-no-files-found: ignore
-      - name: Push output to branch ci-out/matlab-scripts
+      - name: Push output to branch ci-out/reference
         if: always()
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: .github/push_results.sh results/matlab_scripts ci-out/matlab-scripts
+        run: .github/push_results.sh results/reference ci-out/reference
 
   simulink:
-    name: Simulink ${{ matrix.plant }} vs Python
-    needs: python
+    name: Simulink ${{ matrix.plant }} vs reference and paper
+    needs: reference
     runs-on: ubuntu-latest
     timeout-minutes: 300
     strategy:
@@ -108,9 +78,9 @@ jobs:
           cache: true
       - uses: actions/download-artifact@v4
         with:
-          name: python-reference
-          path: results/
-      - name: Build the models, run every scenario, compare with Python
+          name: reference
+          path: results/reference/
+      - name: Build the models, run every scenario, compare with the reference and the paper
         uses: matlab-actions/run-command@v2
         with:
           command: addpath('simulink'); ci_run('simulink', '${{ matrix.plant }}')
@@ -159,33 +129,72 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: .github/push_results.sh results/frestimate ci-out/frestimate
 
+  compat:
+    name: Build and run in an older MATLAB (R2022b)
+    needs: reference
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: matlab-actions/setup-matlab@v2
+        with:
+          release: ${{ env.COMPAT_RELEASE }}
+          products: ${{ env.COMPAT_PRODUCTS }}
+          cache: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: reference
+          path: results/reference/
+      - name: Build every model and run a subset of the scenarios
+        uses: matlab-actions/run-command@v2
+        with:
+          command: addpath('simulink'); ci_run('compat')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: compat-${{ env.COMPAT_RELEASE }}
+          path: results/compat_${{ env.COMPAT_RELEASE }}/
+          if-no-files-found: ignore
+      - name: Push output to branch ci-out/compat
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .github/push_results.sh results/compat_${{ env.COMPAT_RELEASE }} ci-out/compat
+
   report:
     name: Summary and ci-results branch
-    needs: [python, matlab-scripts, simulink, frestimate]
+    needs: [reference, simulink, frestimate, compat]
     if: always()
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
           path: ci/
-      - uses: actions/setup-python@v5
+      - uses: matlab-actions/setup-matlab@v2
         with:
-          python-version: "3.12"
-      - name: Write the summary
+          release: ${{ env.MATLAB_RELEASE }}
+          products: ${{ env.MATLAB_PRODUCTS }}
+          cache: true
+      - name: Write the summary (simulink/ci_report.m)
+        uses: matlab-actions/run-command@v2
         env:
           JOB_RESULTS: >-
-            python=${{ needs.python.result }}
-            matlab-scripts=${{ needs.matlab-scripts.result }}
+            reference=${{ needs.reference.result }}
             simulink=${{ needs.simulink.result }}
             frestimate=${{ needs.frestimate.result }}
+            compat-${{ env.COMPAT_RELEASE }}=${{ needs.compat.result }}
+        with:
+          command: addpath('simulink'); ci_run('report', 'ci', getenv('JOB_RESULTS'))
+      - name: Job summary
+        if: always()
         run: |
-          python python/ci_summary.py ci "$JOB_RESULTS" > ci/SUMMARY.md
-          cat ci/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f ci/SUMMARY.md ]; then cat ci/SUMMARY.md >> "$GITHUB_STEP_SUMMARY"; fi
       - name: Publish models, figures and tables to the ci-results branch
+        if: always()
         run: |
-          rm -rf ci/python-reference/reference/traces_python
+          rm -rf ci/reference/traces_reference
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout --orphan ci-results-tmp

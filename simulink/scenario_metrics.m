@@ -1,5 +1,5 @@
 function m = scenario_metrics(name, t, v, iL, theta, ym, Ts) %#ok<INUSL>
-%SCENARIO_METRICS  Metrics of one scenario run; twin of python/scenarios.py.
+%SCENARIO_METRICS  Metrics of one scenario run (same for every implementation).
 %   m = scenario_metrics(name, t, v, iL, theta, ym) with column vectors sampled
 %   at t_k = k*Ts, k = 0..N-1. A window [t0, t1) is samples round(t0/Ts) ..
 %   round(t1/Ts)-1 (0-based), i.e. MATLAB indices round(t0/Ts)+1 : round(t1/Ts).
@@ -19,7 +19,7 @@ switch kind
         m.vmean_end = mean(v(e));
         m.ripple_end = 0.5 * (max(v(e)) - min(v(e)));
     case 'lr'
-        for tq = [0.199 0.399 0.599]
+        for tq = [0.199 0.260 0.399 0.599]     % 0.26 s = end of the paper's Fig. 14
             m.(sprintf('theta_t%04d', round(tq * 1000))) = theta(round(tq / Ts) + 1);
         end
         tail = win(0.5, 0.6, Ts);

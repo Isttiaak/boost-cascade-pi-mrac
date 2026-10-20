@@ -9,6 +9,3 @@ slprj/
 *.autosave
 *.mex*
 *~
-# Python
-__pycache__/
-*.pyc

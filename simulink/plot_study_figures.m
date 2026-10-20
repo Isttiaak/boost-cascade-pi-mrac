@@ -1,7 +1,8 @@
-function plot_study_figures(R, plant, figdir, pyTraceDir)
+function plot_study_figures(R, plant, figdir, refTraceDir)
 %PLOT_STUDY_FIGURES  Paper figures from a run_simulink_study result map.
 %   plot_study_figures(R, plant, figdir)              Figs. 7, 13-18, 22-24
-%   plot_study_figures(R, plant, figdir, pyTraceDir)  plus Simulink-vs-Python overlays
+%   plot_study_figures(R, plant, figdir, refTraceDir) plus overlays with the traces of
+%                                                     the MATLAB reference (EXPORT_REFERENCE)
 if ~exist(figdir, 'dir')
     mkdir(figdir);
 end
@@ -133,32 +134,33 @@ if all(cellfun(@(k) isKey(R, k), keys))
     save_fig(f, figdir, 'fig22_24_experiment');
 end
 
-%% overlays with the Python reference --------------------------------------------
-if nargin > 3 && exist(pyTraceDir, 'dir')
-    plot_overlays(R, plant, figdir, pyTraceDir, C, ctrls, labels, ccol);
+%% overlays with the MATLAB reference (matlab/boost_sim.m) ----------------------
+if nargin > 3 && ~isempty(refTraceDir) && exist(refTraceDir, 'dir')
+    plot_overlays(R, plant, figdir, refTraceDir, C, ctrls, labels, ccol);
 end
 end
 
 % -------------------------------------------------------------------------
-function plot_overlays(R, plant, figdir, pyTraceDir, C, ctrls, labels, ccol)
+function plot_overlays(R, plant, figdir, refTraceDir, C, ctrls, labels, ccol)
 f = newfig(1200, 700);
 for k = 1:4
     key = ['f18_' ctrls{k}];
-    file = fullfile(pyTraceDir, [key '.csv']);
+    file = fullfile(refTraceDir, [key '.csv']);
     if ~isKey(R, key) || ~exist(file, 'file')
         continue
     end
-    py = readmatrix(file);
+    ref = readmatrix(file);
     r = R(key);
     subplot(2, 2, k); hold on; grid on; box on;
     plot(r.t, r.v, 'Color', ccol{k}, 'LineWidth', 1.4);
-    plot(py(:, 1), py(:, 2), '--', 'Color', C.ink, 'LineWidth', 0.9);
+    plot(ref(:, 1), ref(:, 2), '--', 'Color', C.ink, 'LineWidth', 0.9);
     xlim([0.195 0.24]); ylim([28 47]);
     title(labels{k}, 'FontSize', 9);
     xlabel('Time (s)'); ylabel('V_{out} (V)');
-    legend({sprintf('Simulink (%s)', upper(plant)), 'Python reference'}, 'Location', 'southeast');
+    legend({sprintf('Simulink (%s)', upper(plant)), 'MATLAB reference (boost\_sim.m)'}, ...
+        'Location', 'southeast');
 end
-sgtitle('30 \rightarrow 40 V reference step: Simulink against the Python recreation');
+sgtitle('30 \rightarrow 40 V reference step: Simulink against the MATLAB reference');
 save_fig(f, figdir, 'verify_overlay_f18');
 
 f = newfig(900, 420); hold on; grid on; box on;
@@ -166,19 +168,19 @@ lr = {'lr_g0.1', 'lr_g0.5', 'lr_g1'};
 gc = {C.c1, C.c2, C.c3};
 h = gobjects(0);
 for k = 1:3
-    file = fullfile(pyTraceDir, [lr{k} '.csv']);
+    file = fullfile(refTraceDir, [lr{k} '.csv']);
     if ~isKey(R, lr{k}) || ~exist(file, 'file')
         continue
     end
-    py = readmatrix(file);
+    ref = readmatrix(file);
     r = R(lr{k});
     h(end + 1) = plot(r.t, r.theta, 'Color', gc{k}, 'LineWidth', 1.6); %#ok<AGROW>
-    plot(py(:, 1), py(:, 4), '--', 'Color', C.ink, 'LineWidth', 0.9);
+    plot(ref(:, 1), ref(:, 4), '--', 'Color', C.ink, 'LineWidth', 0.9);
 end
 xlabel('Time (s)'); ylabel('\theta'); xlim([0 0.6]); ylim([-1.5 1.1]);
 legend(h, {'\gamma = 0.1 Simulink', '\gamma = 0.5 Simulink', '\gamma = 1 Simulink'}, ...
     'Location', 'southwest');
-title('Adaptation parameter: Simulink (solid) against the Python recreation (dashed)');
+title('Adaptation parameter: Simulink (solid) against the MATLAB reference (dashed)');
 save_fig(f, figdir, 'verify_overlay_theta');
 end
 

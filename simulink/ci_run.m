@@ -1,21 +1,32 @@
 function ci_run(job, varargin)
 %CI_RUN  Entry point of the GitHub Actions jobs (.github/workflows/verify.yml).
-%   ci_run('matlab_scripts')      run matlab/run_all.m, export the scenario
-%                                 metrics of matlab/boost_sim.m, compare with Python
-%   ci_run('simulink', 'diffeq')  build the models, run every scenario on the
-%   ci_run('simulink', 'sps')     given plant, compare with Python
+%   ci_run('reference')           plain-MATLAB recreation (matlab/run_all.m), the
+%                                 scenario reference of matlab/boost_sim.m and the
+%                                 paper checks of Sections II-IV
+%   ci_run('simulink', 'diffeq')  build the models, run every scenario on the given
+%   ci_run('simulink', 'sps')     plant, compare with the reference and the paper
 %   ci_run('frestimate')          Section II-A with Simulink Control Design
-%   Results go to results/<job>[_<plant>]/ ; the log is results/.../log.txt.
-%   Errors are re-thrown at the end so the CI step fails.
+%   ci_run('compat')              build every model and run a subset of scenarios
+%                                 in an older MATLAB release
+%   ci_run('report', artDir, 'job=result ...')   SUMMARY.md from all artifacts
+%   Results go to results/<job>[_<plant>]/ with a log.txt. Errors and failed
+%   checks are re-thrown at the end so the CI step fails. The same jobs can be
+%   run on a desktop MATLAB (see run_recreation.m in the repository root).
 root = setup_paths();
 cd(root);
+if strcmp(job, 'report')
+    ci_report(varargin{:});
+    return
+end
 switch job
-    case 'matlab_scripts'
-        out = fullfile(root, 'results', 'matlab_scripts');
+    case 'reference'
+        out = fullfile(root, 'results', 'reference');
     case 'simulink'
         out = fullfile(root, 'results', ['simulink_' varargin{1}]);
     case 'frestimate'
         out = fullfile(root, 'results', 'frestimate');
+    case 'compat'
+        out = fullfile(root, 'results', ['compat_' release_name()]);
     otherwise
         error('ci_run:job', 'Unknown job %s', job);
 end
@@ -26,22 +37,26 @@ diary(fullfile(out, 'log.txt'));
 cleanupDiary = onCleanup(@() diary('off'));
 ok = true;
 report = '';
-okCompare = true;
+checks = cell(0, 2);               % {name, ok} of every comparison / paper check
 tJob = tic;
+refDir = fullfile(root, 'results', 'reference');
+refMetrics = fullfile(refDir, 'metrics_reference.csv');
+refTraces = fullfile(refDir, 'traces_reference');
 try
     probe_environment();
-    ref = fullfile(root, 'results', 'reference', 'metrics_python.csv');
-    traces = fullfile(root, 'results', 'reference', 'traces_python');
     switch job
-        case 'matlab_scripts'
+        case 'reference'
+            export_reference(out);
+            [~, okA] = paper_checks('analysis', 'analysis', out);
+            [~, okS] = paper_checks('simulation', 'matlab_script', out, ...
+                fullfile(out, 'metrics_reference.csv'));
+            checks = [checks; {'paper checks (analysis)', okA}; ...
+                {'paper checks (matlab_script)', okS}];
             evalin('base', sprintf('run(''%s'')', fullfile(root, 'matlab', 'run_all.m')));
             cd(root);
             if exist(fullfile(root, 'results_matlab'), 'dir')
                 copyfile(fullfile(root, 'results_matlab'), fullfile(out, 'run_all_outputs'));
             end
-            export_metrics_matlab_scripts(out);
-            [~, okCompare] = compare_metrics(ref, fullfile(out, 'metrics_matlab_scripts.csv'), ...
-                'matlab_scripts', out);
         case 'simulink'
             plant = varargin{1};
             plants = {plant};
@@ -52,10 +67,12 @@ try
             build_boost_models('plants', plants, 'outdir', modeldir);
             sanity_check(plant);
             print_model_diagrams(modeldir, fullfile(out, 'model_diagrams'));
-            run_simulink_study(plant, out, 'models', modeldir, 'pytraces', traces);
+            run_simulink_study(plant, out, 'models', modeldir, 'reftraces', refTraces);
             label = ['simulink_' plant];
-            [~, okCompare] = compare_metrics(ref, fullfile(out, ...
-                sprintf('metrics_simulink_%s.csv', plant)), label, out);
+            metrics = fullfile(out, sprintf('metrics_simulink_%s.csv', plant));
+            [~, okC] = compare_metrics(refMetrics, metrics, label, out);
+            [~, okP] = paper_checks('simulation', label, out, metrics);
+            checks = [checks; {['reference vs ' label], okC}; {['paper checks (' label ')'], okP}];
             if strcmp(plant, 'sps')
                 loss_sensitivity(out);
             end
@@ -65,7 +82,12 @@ try
             build_boost_models('plants', {'sps'}, 'controllers', {}, 'openloop', false, ...
                 'outdir', modeldir);
             run_frestimate_study('sps', out);
+            [~, okF] = paper_checks('frestimate', 'frestimate', out, ...
+                fullfile(out, 'frestimate_fits.csv'));
+            checks = [checks; {'paper checks (frestimate)', okF}];
             copyfile(modeldir, fullfile(out, 'models'));
+        case 'compat'
+            checks = compat_check(out, refMetrics);
     end
 catch err
     ok = false;
@@ -74,21 +96,82 @@ catch err
     annotate('error', sprintf('ci_run(%s)', job), report);
 end
 fprintf('ci_run(%s) finished in %.1f min\n', job, toc(tJob) / 60);
+for k = 1:size(checks, 1)
+    word = 'passed';
+    if ~checks{k, 2}
+        word = 'FAILED';
+    end
+    fprintf('  check %-40s %s\n', checks{k, 1}, word);
+end
 clear cleanupDiary
 if ~ok
     error('ci_run:failed', 'ci_run(%s) failed: %s', job, report);
 end
-if ~okCompare
-    annotate('error', sprintf('ci_run(%s) comparison', job), ...
-        'Some gating metrics differ from the Python reference; see comparison_*.md.');
-    error('ci_run:compare', ['ci_run(%s): some gating metrics differ from the Python ' ...
-        'reference (see comparison_*.md).'], job);
+bad = checks(~[checks{:, 2}], 1);
+if ~isempty(bad)
+    msg = sprintf('Not as expected: %s (see comparison_*.md and paper_checks_*.md).', ...
+        strjoin(bad, ', '));
+    annotate('error', sprintf('ci_run(%s) checks', job), msg);
+    error('ci_run:checks', 'ci_run(%s): %s', job, msg);
 end
 end
 
 % -------------------------------------------------------------------------
+function checks = compat_check(out, refMetrics)
+%COMPAT_CHECK  Build every model with this (older) release and run a subset of
+%   the scenarios on the differential-equation plant (and the circuit plant
+%   when Simscape Electrical is installed); compare with the reference.
+root = setup_paths();
+modeldir = fullfile(root, 'models');
+files = build_boost_models('outdir', modeldir);
+fprintf('compat: built %d models with MATLAB %s\n', numel(files), version);
+fid = fopen(fullfile(out, 'built_models.txt'), 'w');
+fprintf(fid, '%s\n', files{:});
+fclose(fid);
+plants = {'diffeq'};
+if exist(fullfile(modeldir, 'boost_cascade_pi_sps.slx'), 'file')
+    plants{end + 1} = 'sps';
+end
+sanity_check(plants{end});
+ctrlModel = struct('pi', 'single_pi', 'cascade', 'cascade_pi', 'mrac', 'cascade_pi_mrac', ...
+    'mrac_mf', 'cascade_pi_mrac_mf');
+subset = {'lr_g0.5', 'f16_cascade', 'f18_cascade', 'f18_mrac', 'f18_mrac_mf', 'exp_cascade'};
+S = scenario_list();
+checks = cell(0, 2);
+for p = plants
+    rows = {};
+    for name = subset
+        s = S(strcmp({S.name}, name{1}));
+        mdl = sprintf('boost_%s_%s', ctrlModel.(s.ctrl), p{1});
+        r = run_case(mdl, s);
+        m = scenario_metrics(s.name, r.t, r.v, r.iL, r.theta, r.ym);
+        f = fieldnames(m);
+        for j = 1:numel(f)
+            rows(end + 1, :) = {s.name, f{j}, m.(f{j})}; %#ok<AGROW>
+        end
+        fprintf('  compat %-8s %-14s %5.1f s\n', p{1}, s.name, r.wall);
+    end
+    label = sprintf('compat_%s_%s', release_name(), p{1});
+    file = fullfile(out, sprintf('metrics_%s.csv', label));
+    fid = fopen(file, 'w');
+    fprintf(fid, 'scenario,metric,value\n');
+    for i = 1:size(rows, 1)
+        fprintf(fid, '%s,%s,%.17g\n', rows{i, 1}, rows{i, 2}, rows{i, 3});
+    end
+    fclose(fid);
+    [~, okC] = compare_metrics(refMetrics, file, label, out, subset);
+    checks = [checks; {['reference vs ' label], okC}]; %#ok<AGROW>
+end
+bdclose('all');
+end
+
+function r = release_name()
+%RELEASE_NAME  'R2025a' etc.
+r = regexprep(version('-release'), '^(\d+)', 'R$1');
+end
+
 function sanity_check(plant)
-%SANITY_CHECK  Open-loop run at D = 0.5: the circuit must give about +40 V.
+%SANITY_CHECK  Open-loop run at D = 0.5: every plant must settle near +40 V.
 bm = boost_mrac_params('duty_ol', 0.5);
 load_system('boost_openloop_models');
 out = sim('boost_openloop_models', 'StopTime', '0.05');
@@ -153,6 +236,9 @@ end
 
 function annotate(level, title, msg)
 %ANNOTATE  GitHub Actions workflow command, shown as an annotation of the job.
+if isempty(getenv('GITHUB_ACTIONS'))
+    return
+end
 msg = strrep(msg, '%', '%25');
 msg = strrep(msg, sprintf('\r'), '%0D');
 msg = strrep(msg, sprintf('\n'), '%0A');

@@ -8,7 +8,7 @@ function [tolAbs, tolRel, gating] = metric_tolerance(scen, metric)
 %   depends on tiny numerical details.
 gating = true;
 switch metric
-    case {'theta_t0199', 'theta_t0399', 'theta_t0599'}
+    case {'theta_t0199', 'theta_t0260', 'theta_t0399', 'theta_t0599'}
         tolAbs = 0.01; tolRel = 0;
     case {'emax_step', 'emin_step'}
         tolAbs = 0.3; tolRel = 0;

@@ -1,6 +1,7 @@
 function S = scenario_list()
 %SCENARIO_LIST  Test scenarios shared by every implementation of the recreation.
-%   Identical to python/scenarios.py (keep the two in step). Fields:
+%   Run by matlab/boost_sim.m (EXPORT_REFERENCE) and by the Simulink models
+%   (RUN_SIMULINK_STUDY), and scored by SCENARIO_METRICS. Fields:
 %   name, ctrl ('open' | 'pi' | 'cascade' | 'mrac' | 'mrac_mf'), T [s],
 %   gamma, vref/t_vref, vin/t_vin, rload/t_rload (value triples with two
 %   switching times), duty (open loop), iL_min (diode limit, -Inf = none).
