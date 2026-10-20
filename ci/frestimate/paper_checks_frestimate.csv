@@ -1,0 +1,7 @@
+id,item,paper,value,tol,expect,note,gating,pass
+fr03_zero,"Eq. 2 RHP zero (rad/s) vs frestimate, amplitude 0.03",473.575638506876,17719.1,236.787819253438,differs,"paper procedure",1,1
+fr03_zeta,"Eq. 2 damping ratio vs frestimate, amplitude 0.03",2.59220636741683,0.404,0.5,differs,"converter enters DCM near resonance",1,1
+fr03_dc,"Eq. 2 DC gain vs frestimate, amplitude 0.03",76.4388774377676,80.2923,2,info,"",0,0
+frss_wn,"Eq. 31 resonance (rad/s) vs frestimate, amplitude 0.0005",2383.65647311398,2383.05,50,match,"paper's own formula, not a printed number",1,1
+frss_zeta,"Eq. 31 damping ratio vs frestimate, amplitude 0.0005",0.0297957059139248,0.03056,0.01,match,"paper's own formula",1,1
+frss_dc,"Eq. 31 DC gain vs frestimate, amplitude 0.0005",80,81.3593,3,match,"paper's own formula",1,1

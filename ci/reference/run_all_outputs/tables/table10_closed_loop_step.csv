@@ -1,0 +1,8 @@
+Source,Controller,RiseTime,SettlingTime,SettlingMin,SettlingMax,Overshoot,Undershoot,Peak,PeakTime
+PAPER Table 10,Single PI,0.00059, 0.0079,  33.69, 40.164,   0.41,   3.16, 40.164,  0.001,
+PAPER Table 10,Cascade PI,0.0012, 0.0064, 37.564, 44.697,11.7425,    0.1, 44.697, 0.0028,
+PAPER Table 10,Cascade PI-based MRAC,0.0014,0.00145,   39.7, 41.485, 3.7125,      0, 41.485, 0.0025,
+Recreated,Single PI,0.00058777,       NaN,    34.041,    41.013,    2.5329,         0,    41.013,   0.19245,
+Recreated,Cascade PI,0.00097782,  0.018265,    36.044,    44.616,    11.541,         0,    44.616,   0.00285,
+Recreated,Cascade PI-MRAC (as written),0.00097742,  0.021816,    36.051,    44.571,    11.427,         0,    44.571,    0.0028,
+Recreated,Cascade PI-MRAC, model-following set-point,0.0021736, 0.013015,   36.009,   41.746,   4.3649,        0,   41.746,   0.0042,

@@ -1,0 +1,32 @@
+id,item,paper,value,tol,expect,note,gating,pass
+tab6_eq2_RiseTime,"Table 6, Eq. 2: RiseTime (stepinfo)",0.0044,0.0043603412830159,0.0001,match,,1,1
+tab6_eq2_SettlingTime,"Table 6, Eq. 2: SettlingTime (stepinfo)",0.0081,0.00806025038958206,0.0001,match,stepinfo TransientTime; SettlingTime = 0.009283 s,1,1
+tab6_eq2_SettlingMin,"Table 6, Eq. 2: SettlingMin (stepinfo)",68.8104,68.8104429578807,0.2,match,,1,1
+tab6_eq2_SettlingMax,"Table 6, Eq. 2: SettlingMax (stepinfo)",76.4336,76.4335764697635,0.05,match,,1,1
+tab6_eq2_Overshoot,"Table 6, Eq. 2: Overshoot (stepinfo)",0,0,0.05,match,,1,1
+tab6_eq2_Undershoot,"Table 6, Eq. 2: Undershoot (stepinfo)",85.1766,85.1765818169558,0.05,match,,1,1
+tab6_eq2_Peak,"Table 6, Eq. 2: Peak (stepinfo)",76.4336,76.4335764697635,0.05,match,,1,1
+tab6_eq2_PeakTime,"Table 6, Eq. 2: PeakTime (stepinfo)",0.0305,0.0205236956725861,0.0005,info,end of the step-plot horizon (monotone approach),0,0
+tab6_eq32_RiseTime,"Table 6, Eq. 32: RiseTime (stepinfo)",0.0042,0.00419174127066543,0.0001,match,,1,1
+tab6_eq32_SettlingTime,"Table 6, Eq. 32: SettlingTime (stepinfo)",0.0078,0.00779086777865216,0.0001,match,stepinfo TransientTime; SettlingTime = 0.008926 s,1,1
+tab6_eq32_SettlingMin,"Table 6, Eq. 32: SettlingMin (stepinfo)",72.0324,72.0323610650074,0.2,match,,1,1
+tab6_eq32_SettlingMax,"Table 6, Eq. 32: SettlingMax (stepinfo)",79.9377,79.9376500550423,0.05,match,,1,1
+tab6_eq32_Overshoot,"Table 6, Eq. 32: Overshoot (stepinfo)",0,0,0.05,match,,1,1
+tab6_eq32_Undershoot,"Table 6, Eq. 32: Undershoot (stepinfo)",81.2702,81.2701942499915,0.05,match,,1,1
+tab6_eq32_Peak,"Table 6, Eq. 32: Peak (stepinfo)",79.9377,79.9376500550423,0.05,match,,1,1
+tab6_eq32_PeakTime,"Table 6, Eq. 32: PeakTime (stepinfo)",0.0151,0.0151162510292801,0.0005,info,end of the step-plot horizon (monotone approach),0,1
+tab8_ILmax,"Table 8: I_L,avg,max (A)",8,8,1e-09,match,Eq. 46,1,1
+tab8_dIL,"Table 8: inductor ripple (A)",1.6,1.6,1e-09,match,Eq. 47,1,1
+tab8_L,"Table 8: L (mH)",0.3125,0.3125,1e-09,match,Eq. 48,1,1
+tab8_dV,"Table 8: output ripple (V)",1.6,1.6,1e-09,match,Eq. 49,1,1
+tab8_C,"Table 8: C (uF)",62.5,62.5,1e-09,match,Eq. 50,1,1
+eq32_zero,"Eq. 32 RHP zero (rad/s) vs Eq. 31 with Table 3",500,40000,50,differs,only some coefficients of Eq. 31 were divided by 80,1,1
+eq32_zeta,"Eq. 32 damping ratio vs Eq. 31 with Table 3",2.38365647311398,0.0297957059139248,0.1,differs,Eq. 31: LC resonance at 2384 rad/s,1,1
+eq40_dc,"Eq. 40 DC gain (A per unit duty) vs Eq. 39",1600,20,1,differs,,1,1
+eq51_zero,"Eq. 51 RHP zero (rad/s) vs Eq. 31 with Table 8",800,8000,50,differs,printed s-coefficient 10x too large,1,1
+eq2_zero,"Eq. 2 RHP zero (rad/s) vs Eq. 31 with Table 3",473.575638506876,40000,50,differs,see the frestimate checks,1,1
+ref_printed,"Reference loop, printed Eq. 51 + Eq. 52: max Re(pole) (rad/s)",NaN,182.40235720043,0,positive,unstable reference model,1,1
+ref_corrected,"Reference loop, Eq. 51 from Table 8 + Eq. 52: max Re(pole) (rad/s)",NaN,-457.901569095883,0,negative,used in the recreation,1,1
+pi_eq2,"Single PI (Eq. 33) on printed Eq. 2: max Re(pole) (rad/s)",NaN,-155.618884501753,0,negative,,1,1
+pi_eq32,"Single PI (Eq. 33) on printed Eq. 32: max Re(pole) (rad/s)",NaN,-156.93762873085,0,negative,,1,1
+pi_eq31,"Single PI (Eq. 33) on Eq. 31 (Table 3): max Re(pole) (rad/s)",NaN,52.8521791119473,0,positive,unstable on the lossless converter,1,1
