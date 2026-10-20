@@ -71,6 +71,7 @@ catch err
     ok = false;
     report = getReport(err, 'extended', 'hyperlinks', 'off');
     fprintf(2, '\n*** ci_run(%s) failed ***\n%s\n', job, report);
+    annotate('error', sprintf('ci_run(%s)', job), report);
 end
 fprintf('ci_run(%s) finished in %.1f min\n', job, toc(tJob) / 60);
 clear cleanupDiary
@@ -78,6 +79,8 @@ if ~ok
     error('ci_run:failed', 'ci_run(%s) failed: %s', job, report);
 end
 if ~okCompare
+    annotate('error', sprintf('ci_run(%s) comparison', job), ...
+        'Some gating metrics differ from the Python reference; see comparison_*.md.');
     error('ci_run:compare', ['ci_run(%s): some gating metrics differ from the Python ' ...
         'reference (see comparison_*.md).'], job);
 end
@@ -147,4 +150,15 @@ figdir = fullfile(out, 'figures');
 if ~exist(figdir, 'dir'), mkdir(figdir); end
 exportgraphics(f, fullfile(figdir, 'loss_sensitivity_single_pi.png'), 'Resolution', 150);
 close(f);
+end
+
+function annotate(level, title, msg)
+%ANNOTATE  GitHub Actions workflow command, shown as an annotation of the job.
+msg = strrep(msg, '%', '%25');
+msg = strrep(msg, sprintf('\r'), '%0D');
+msg = strrep(msg, sprintf('\n'), '%0A');
+if numel(msg) > 6000
+    msg = [msg(1:6000) '...'];
+end
+fprintf('::%s title=%s::%s\n', level, title, msg);
 end

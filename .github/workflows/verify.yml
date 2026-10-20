@@ -10,6 +10,8 @@ on:
 permissions:
   contents: write
 
+# every job pushes its output folder to the branch ci-out/<job> (see .github/push_results.sh)
+
 concurrency:
   group: verify-${{ github.ref }}
   cancel-in-progress: true
@@ -39,6 +41,14 @@ jobs:
         with:
           name: python-reference
           path: results/
+      - name: Push output to branch ci-out/python
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p ci_python && cp -r results/tables results/figures ci_python/ 2>/dev/null || true
+          cp results/reference/metrics_python.csv ci_python/ 2>/dev/null || true
+          .github/push_results.sh ci_python ci-out/python
 
   matlab-scripts:
     name: MATLAB scripts vs Python
@@ -72,6 +82,11 @@ jobs:
           name: matlab-scripts
           path: results/matlab_scripts/
           if-no-files-found: ignore
+      - name: Push output to branch ci-out/matlab-scripts
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .github/push_results.sh results/matlab_scripts ci-out/matlab-scripts
 
   simulink:
     name: Simulink ${{ matrix.plant }} vs Python
@@ -109,6 +124,11 @@ jobs:
           name: simulink-${{ matrix.plant }}
           path: results/simulink_${{ matrix.plant }}/
           if-no-files-found: ignore
+      - name: Push output to branch ci-out/simulink-${{ matrix.plant }}
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .github/push_results.sh results/simulink_${{ matrix.plant }} ci-out/simulink-${{ matrix.plant }}
 
   frestimate:
     name: Frequency response with frestimate (Section II-A)
@@ -137,6 +157,11 @@ jobs:
           name: frestimate
           path: results/frestimate/
           if-no-files-found: ignore
+      - name: Push output to branch ci-out/frestimate
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .github/push_results.sh results/frestimate ci-out/frestimate
 
   report:
     name: Summary and ci-results branch
