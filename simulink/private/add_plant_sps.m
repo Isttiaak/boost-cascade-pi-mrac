@@ -16,15 +16,15 @@ add_block('built-in/Subsystem', path, 'Position', pos);
 % Simulink ports
 sl_add(path, 'built-in/Inport', 'V_in', [20 318 50 332], 'Port', '2');
 sl_add(path, 'built-in/Inport', 'gate', [250 48 280 62], 'Port', '1');
-sl_add(path, 'built-in/Inport', 'gate load A', [600 48 630 62], 'Port', '3');
-sl_add(path, 'built-in/Inport', 'gate load B', [740 48 770 62], 'Port', '4');
-sl_add(path, 'built-in/Outport', 'v_out', [1000 208 1030 222], 'Port', '1');
-sl_add(path, 'built-in/Outport', 'i_L', [1000 18 1030 32], 'Port', '2');
+sl_add(path, 'built-in/Inport', 'gate load A', [650 48 680 62], 'Port', '3');
+sl_add(path, 'built-in/Inport', 'gate load B', [790 48 820 62], 'Port', '4');
+sl_add(path, 'built-in/Outport', 'v_out', [1060 208 1090 222], 'Port', '1');
+sl_add(path, 'built-in/Outport', 'i_L', [1060 18 1090 32], 'Port', '2');
 
 lib = 'sps_lib';
 % source: "+" (RConn) on top, "-" (LConn) at the bottom
 src = sl_add(path, [lib '/Sources/Controlled Voltage Source'], 'V_dc', [80 190 120 250]);
-set_param(src, 'Orientation', 'up');
+set_param(src, 'Orientation', 'up', 'NamePlacement', 'alternate');
 sl_setp(src, 'Initialize', 'on', 'Source_Type', 'DC', 'Amplitude', 'BM.vin(1)', ...
     'Measurements', 'None');
 % top rail
@@ -41,16 +41,16 @@ sw = sl_add(path, [lib '/Power Electronics/Mosfet'], 'SW', [310 190 370 250]);
 set_param(sw, 'Orientation', 'down');
 sl_setp(sw, 'Ron', 'BM.Ron_sw', 'Lon', '0', 'IC', '0', 'Rs', '1e5', 'Cs', 'inf', ...
     'Measurements', 'off');
-Cb = sl_add(path, [lib '/Passives/Series RLC Branch'], 'C_out', [490 190 530 250]);
+Cb = sl_add(path, [lib '/Passives/Series RLC Branch'], 'C_out', [480 190 520 250]);
 set_param(Cb, 'Orientation', 'down');
 sl_setp(Cb, 'BranchType', 'C', 'Capacitance', 'BM.C', 'Setx0', 'on', ...
     'InitialVoltage', 'BM.v0', 'Measurements', 'None');
-Rb = sl_add(path, [lib '/Passives/Series RLC Branch'], 'R_base', [560 190 600 250]);
+Rb = sl_add(path, [lib '/Passives/Series RLC Branch'], 'R_base', [590 190 630 250]);
 set_param(Rb, 'Orientation', 'down');
 sl_setp(Rb, 'BranchType', 'R', 'Resistance', 'BM.R_base', 'Measurements', 'None');
 names = {'A', 'B'};
 rexpr = {'BM.R_a', 'BM.R_b'};
-x0 = [650 790];
+x0 = [700 840];
 for k = 1:2
     s = sl_add(path, [lib '/Power Electronics/Ideal Switch'], ['S_' names{k}], ...
         [x0(k) 170 x0(k) + 40 220]);
@@ -62,7 +62,7 @@ for k = 1:2
     sl_setp(r, 'BranchType', 'R', 'Resistance', rexpr{k}, 'Measurements', 'None');
 end
 sl_add(path, [lib '/Sensors and Measurements/Voltage Measurement'], 'v_out sensor', ...
-    [920 195 950 235]);
+    [970 195 1000 235]);
 
 % nodes
 sl_wire(path, 'V_dc', 'R1', 'L', 'L1');                                   % input +
