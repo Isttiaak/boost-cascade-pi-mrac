@@ -12,10 +12,6 @@ permissions:
 
 # every job pushes its output folder to the branch ci-out/<job> (see .github/push_results.sh)
 
-concurrency:
-  group: verify-${{ github.ref }}
-  cancel-in-progress: true
-
 env:
   MATLAB_RELEASE: R2025a
   MATLAB_PRODUCTS: Simulink Simscape Simscape_Electrical Control_System_Toolbox Simulink_Control_Design

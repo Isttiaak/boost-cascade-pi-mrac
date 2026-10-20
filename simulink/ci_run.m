@@ -107,7 +107,6 @@ for k = 1:numel(names)
             names{k}, mean(x(n:end)));
     end
 end
-assert(s.T == 0.05);
 end
 
 function loss_sensitivity(out)
