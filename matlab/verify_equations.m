@@ -5,7 +5,7 @@ P = paper_values();
 outdir = fullfile('..', 'results_matlab', 'tables');
 if ~exist(outdir, 'dir'), mkdir(outdir); end
 fid = fopen(fullfile(outdir, 'equation_check.txt'), 'w');
-say = @(varargin) cellfun(@(f) fprintf(f, varargin{:}), {1, fid});
+say = @(varargin) say_both(fid, varargin{:});
 
 Vdc = P.Vdc; L = P.L; C = P.C; R = P.R; D = P.D; Dp = 1 - D;
 
@@ -63,4 +63,10 @@ z = roots(num); p = roots(den);
 dc = polyval(num, 0) / polyval(den, 0);
 say('   %s\n      num = %s\n      den = %s\n      DC gain = %.6g   zeros = %s   poles = %s\n', ...
     name, mat2str(num, 5), mat2str(den, 5), dc, mat2str(z.', 5), mat2str(p.', 5));
+end
+
+function say_both(fid, varargin)
+% print to the command window and to the report file
+fprintf(1, varargin{:});
+fprintf(fid, varargin{:});
 end

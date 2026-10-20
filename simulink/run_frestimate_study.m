@@ -33,8 +33,10 @@ nset = max(1, ceil(0.07 * w / (2 * pi)));       % >= 70 ms to settle (tau = 2RC 
 amps = [P.perturb_amp 0.0005];
 res = struct('amp', {}, 'w', {}, 'H', {}, 'num', {}, 'den', {}, 'fit', {}, 'wall', {});
 for a = amps
+    % NumPeriods counts the settling periods too
     in = frest.Sinestream('Frequency', w, 'Amplitude', a, 'SamplesPerPeriod', 40, ...
-        'RampPeriods', 0, 'NumPeriods', nmeas, 'SettlingPeriods', nset, 'FreqUnits', 'rad/s');
+        'RampPeriods', 0, 'NumPeriods', nset + nmeas, 'SettlingPeriods', nset, ...
+        'FreqUnits', 'rad/s');
     fprintf('frestimate %s, amplitude %g, %d frequencies ...\n', mdl, a, numel(w));
     tic;
     sysest = frestimate(mdl, io, in);
