@@ -1,0 +1,8 @@
+Controller,Plant,Stable,Gm_dB,Pm_deg
+Single PI,Printed Eq. 2,1,0.89,59.43
+Single PI,Printed Eq. 32,1,0.67,51.09
+Single PI,Correct Eq. 31 (lossless),0,-6.04,-3.85
+Single PI,Eq. 31 + 10 mOhm,0,,
+Single PI,Eq. 31 + 20 mOhm,1,,
+Single PI,Eq. 31 + 50 mOhm,1,,
+Cascade PI,Correct Eqs. 31/39,1,,
