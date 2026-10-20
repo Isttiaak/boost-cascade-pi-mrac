@@ -1,0 +1,214 @@
+==== environment ====
+MATLAB 25.1.0.2973910 (R2025a) Update 1 on GLNXA64
+  Control System Toolbox                        25.1
+  MATLAB                                        25.1
+  Simscape                                      25.1
+  Simscape Electrical                           25.1
+  Simulink                                      25.1
+  Simulink Control Design                       25.1
+  license Simulink                   1
+  license Simscape                   1
+  license Power_System_Blocks        1
+  license Control_Toolbox            1
+  license Simulink_Control_Design    1
+  simulink/Discrete/Discrete-Time Integrator  [in 1 out 1 L 0 R 0]  IntegratorMethod, gainval, ExternalReset, InitialConditionSource, InitialCondition, InitialConditionSetting, SampleTime, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, ShowSaturationPort, ShowStatePort, IgnoreLimit, StateName, StateMustResolveToSignalObject, StateStorageClass, RTWStateStorageTypeQualifier, StateSignalObject
+  simulink/Discrete/Discrete Transfer Fcn  [in 1 out 1 L 0 R 0]  NumeratorSource, Numerator, DenominatorSource, Denominator, InitialStatesSource, InitialStates, InputProcessing, ExternalReset, InitialDenominatorStates, FilterStructure, SampleTime, a0EqualsOne, NumCoefMin, NumCoefMax, DenCoefMin, DenCoefMax, OutMin, OutMax, StateDataTypeStr, MultiplicandDataTypeStr, NumCoefDataTypeStr, DenCoefDataTypeStr, NumProductDataTypeStr, DenProductDataTypeStr, NumAccumDataTypeStr, DenAccumDataTypeStr, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, StateName, StateMustResolveToSignalObject, StateSignalObject, StateStorageClass, RTWStateStorageTypeQualifier
+  simulink/Discrete/Zero-Order Hold  [in 1 out 1 L 0 R 0]  SampleTime
+  simulink/Sources/Repeating Sequence  [in 0 out 1 L 0 R 0]  rep_seq_t, rep_seq_y
+  simulink/Sources/Step  [in 0 out 1 L 0 R 0]  Time, Before, After, OutDataTypeStr, SampleTime, VectorParams1D, ZeroCross
+  simulink/Logic and Bit Operations/Relational Operator  [in 2 out 1 L 0 R 0]  Operator, InputSameDT, OutDataTypeStr, ZeroCross, SampleTime, RndMeth
+  simulink/Signal Routing/Switch  [in 3 out 1 L 0 R 0]  Criteria, Threshold, InputSameDT, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, ZeroCross, SampleTime, AllowDiffInputSizes
+  simulink/Continuous/Integrator  [in 1 out 1 L 0 R 0]  ExternalReset, InitialConditionSource, InitialCondition, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, WrapState, WrappedStateUpperValue, WrappedStateLowerValue, ShowSaturationPort, ShowStatePort, AbsoluteTolerance, IgnoreLimit, ZeroCross, ContinuousStateAttributes
+  simulink/Sinks/To Workspace  [in 1 out 0 L 0 R 0]  VariableName, MaxDataPoints, Decimation, SaveFormat, Save2DSignal, FixptAsFi, SampleTime
+  sps_lib/powergui  [in 0 out 0 L 0 R 0]  SimulationMode, SampleTime, frequency, Iterations, frequencyindice, Pbase, ErrMax, UnitsV, UnitsW, buscounter, FunctionMessages, echomessages, EnableUseOfTLC, CurrentSourceSwitches, DisableSnubberDevices, DisableRonSwitches, DisableVfSwitches, DisplayEquations, AutomaticDiscreteSolvers, SolverType, Interpol, ExternalGateDelay, methode, Ts, x0status, SPID, SwTol, HookPort, NonlinearTolerance, nMaxIteration, ContinueOnMaxIteration, RestoreLinks, ResistiveCurrentMeasurement, Frange, Ylog, Xlog, ShowGrid, save, variable, structure, ZoomFFT, StartTime, cycles, DisplayStyle, fundamental, FreqAxis, MaxFrequency, frequencyindicesteady, RmsSteady, display
+  sps_lib/Sources/Controlled Voltage Source  [in 1 out 0 L 1 R 1]  Initialize, Source_Type, Amplitude, Phase, Frequency, Measurements
+  sps_lib/Passives/Series RLC Branch  [in 0 out 0 L 1 R 1]  BranchType, Resistance, Inductance, SetiL0, InitialCurrent, Capacitance, Setx0, InitialVoltage, Measurements
+  sps_lib/Power Electronics/Mosfet  [in 1 out 1 L 1 R 1]  Ron, Lon, Rd, Vfd, IC, Rs, Cs, Measurements
+  sps_lib/Power Electronics/Diode  [in 0 out 1 L 1 R 1]  Ron, Lon, Vf, IC, UseSnubber, Rs, Cs, Measurements
+  sps_lib/Power Electronics/Ideal Switch  [in 1 out 1 L 1 R 1]  Ron, Lon, IC, Rs, Cs, Measurements
+  sps_lib/Sensors and Measurements/Voltage Measurement  [in 0 out 1 L 2 R 0]  PhasorSimulation, OutputType, PSBequivalent
+  sps_lib/Sensors and Measurements/Current Measurement  [in 0 out 1 L 1 R 1]  PhasorSimulation, OutputType, PSBequivalent
+==== end environment ====
+::notice title=probe_environment::MATLAB 25.1.0.2973910 (R2025a) Update 1%0Asimulink/Discrete/Discrete-Time Integrator  [in 1 out 1 L 0 R 0]  IntegratorMethod, gainval, ExternalReset, InitialConditionSource, InitialCondition, InitialConditionSetting, SampleTime, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, ShowSaturationPort, ShowStatePort, IgnoreLimit, StateName, StateMustResolveToSignalObject, StateStorageClass, RTWStateStorageTypeQualifier, StateSignalObject%0Asimulink/Discrete/Discrete Transfer Fcn  [in 1 out 1 L 0 R 0]  NumeratorSource, Numerator, DenominatorSource, Denominator, InitialStatesSource, InitialStates, InputProcessing, ExternalReset, InitialDenominatorStates, FilterStructure, SampleTime, a0EqualsOne, NumCoefMin, NumCoefMax, DenCoefMin, DenCoefMax, OutMin, OutMax, StateDataTypeStr, MultiplicandDataTypeStr, NumCoefDataTypeStr, DenCoefDataTypeStr, NumProductDataTypeStr, DenProductDataTypeStr, NumAccumDataTypeStr, DenAccumDataTypeStr, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, StateName, StateMustResolveToSignalObject, StateSignalObject, StateStorageClass, RTWStateStorageTypeQualifier%0Asimulink/Discrete/Zero-Order Hold  [in 1 out 1 L 0 R 0]  SampleTime%0Asimulink/Sources/Repeating Sequence  [in 0 out 1 L 0 R 0]  rep_seq_t, rep_seq_y%0Asimulink/Sources/Step  [in 0 out 1 L 0 R 0]  Time, Before, After, OutDataTypeStr, SampleTime, VectorParams1D, ZeroCross%0Asimulink/Logic and Bit Operations/Relational Operator  [in 2 out 1 L 0 R 0]  Operator, InputSameDT, OutDataTypeStr, ZeroCross, SampleTime, RndMeth%0Asimulink/Signal Routing/Switch  [in 3 out 1 L 0 R 0]  Criteria, Threshold, InputSameDT, OutMin, OutMax, OutDataTypeStr, LockScale, RndMeth, SaturateOnIntegerOverflow, ZeroCross, SampleTime, AllowDiffInputSizes%0Asimulink/Continuous/Integrator  [in 1 out 1 L 0 R 0]  ExternalReset, InitialConditionSource, InitialCondition, LimitOutput, UpperSaturationLimit, LowerSaturationLimit, WrapState, WrappedStateUpperValue, WrappedStateLowerValue, ShowSaturationPort, ShowStatePort, AbsoluteTolerance, IgnoreLimit, ZeroCross, ContinuousStateAttributes%0Asimulink/Sinks/To Workspace  [in 1 out 0 L 0 R 0]  VariableName, MaxDataPoints, Decimation, SaveFormat, Save2DSignal, FixptAsFi, SampleTime%0Asps_lib/powergui  [in 0 out 0 L 0 R 0]  SimulationMode, SampleTime, frequency, Iterations, frequencyindice, Pbase, ErrMax, UnitsV, UnitsW, buscounter, FunctionMessages, echomessages, EnableUseOfTLC, CurrentSourceSwitches, DisableSnubberDevices, DisableRonSwitches, DisableVfSwitches, DisplayEquations, AutomaticDiscreteSolvers, SolverType, Interpol, ExternalGateDelay, methode, Ts, x0status, SPID, SwTol, HookPort, NonlinearTolerance, nMaxIteration, ContinueOnMaxIteration, RestoreLinks, ResistiveCurrentMeasurement, Frange, Ylog, Xlog, ShowGrid, save, variable, structure, ZoomFFT, StartTime, cycles, DisplayStyle, fundamental, FreqAxis, MaxFrequency, frequencyindicesteady, RmsSteady, display%0Asps_lib/Sources/Controlled Voltage Source  [in 1 out 0 L 1 R 1]  Initialize, Source_Type, Amplitude, Phase, Frequency, Measurements%0Asps_lib/Passives/Series RLC Branch  [in 0 out 0 L 1 R 1]  BranchType, Resistance, Inductance, SetiL0, InitialCurrent, Capacitance, Setx0, InitialVoltage, Measurements%0Asps_lib/Power Electronics/Mosfet  [in 1 out 1 L 1 R 1]  Ron, Lon, Rd, Vfd, IC, Rs, Cs, Measurements%0Asps_lib/Power Electronics/Diode  [in 0 out 1 L 1 R 1]  Ron, Lon, Vf, IC, UseSnubber, Rs, Cs, Measurements%0Asps_lib/Power Electronics/Ideal Switch  [in 1 out 1 L 1 R 1]  Ron, Lon, IC, Rs, Cs, Measurements%0Asps_lib/Sensors and Measurements/Voltage Measurement  [in 0 out 1 L 2 R 0]  PhasorSimulation, OutputType, PSBequivalent%0Asps_lib/Sensors and Measurements/Current Measurement  [in 0 out 1 L 1 R 1]  PhasorSimulation, OutputType, PSBequivalent
+  reference ol_diode         0.3 s
+  reference ol_bidir         0.1 s
+  reference lr_g0.1          0.4 s
+  reference lr_g0.5          0.3 s
+  reference lr_g1            0.3 s
+  reference f16_pi           0.3 s
+  reference f17_pi           0.3 s
+  reference f18_pi           0.3 s
+  reference exp_pi           0.1 s
+  reference f16_cascade      0.3 s
+  reference f17_cascade      0.2 s
+  reference f18_cascade      0.2 s
+  reference exp_cascade      0.1 s
+  reference f16_mrac         0.2 s
+  reference f17_mrac         0.2 s
+  reference f18_mrac         0.2 s
+  reference exp_mrac         0.1 s
+  reference f16_mrac_mf      0.2 s
+  reference f17_mrac_mf      0.2 s
+  reference f18_mrac_mf      0.2 s
+  reference exp_mrac_mf      0.1 s
+export_reference: 21 scenarios in 0.1 min -> /home/runner/work/boost-cascade-pi-mrac/boost-cascade-pi-mrac/results/reference/metrics_reference.csv
+paper_checks(analysis): 29/29 checks as expected, 2 informational
+paper_checks(matlab_script): 25/25 checks as expected, 4 informational
+1) Operating point and averaged model (Eqs. 1, 3-18)
+   D = 0.500,  I_L = 5.0000 A,  V_C = 40.0000 V
+
+2) Control-to-output TF v/d (Eq. 31 -> numbers)
+   Eq. 31 with Table 3 values (correct)
+      num = [-0.002 80]
+      den = [1.76e-07 2.5e-05 1]
+      DC gain = 80   zeros = 40000   poles = [-71.023+2382.6i -71.023-2382.6i]
+   Eq. 31 normalised (num constant = 1)
+      num = [-2.5e-05 1]
+      den = [2.2e-09 3.125e-07 0.0125]
+      DC gain = 80   zeros = 40000   poles = [-71.023+2382.6i -71.023-2382.6i]
+   Eq. 32 AS PRINTED
+      num = [-0.002 1]
+      den = [2.2e-09 2.5e-05 0.0125]
+      DC gain = 80   zeros = 500   poles = [-10839 -524.18]
+   Eq. 2 AS PRINTED
+      num = [-1.018e+06 4.821e+08]
+      den = [1 13020 6.307e+06]
+      DC gain = 76.4389   zeros = 473.58   poles = [-12516 -503.91]
+   -> Eq. 32 divides only the s^2 term and constants by 80; RHP zero 40000 -> 500 rad/s.
+
+3) Duty -> inductor current (Eq. 39 -> numbers)
+   Eq. 39 evaluated (correct)
+      num = [0.1408 40]
+      den = [3.52e-07 5e-05 2]
+      DC gain = 20   zeros = -284.09   poles = [-71.023+2382.6i -71.023-2382.6i]
+   Eq. 40 AS PRINTED
+      num = [0.00176 40]
+      den = [4.4e-09 5e-05 0.025]
+      DC gain = 1600   zeros = -22727   poles = [-10839 -524.18]
+   -> Eq. 40 DC gain 1600 A/duty instead of 20 A/duty.
+
+4) Inductor current -> output voltage (Eq. 41)
+   Gvd/Gid after cancellation (correct)
+      num = [-0.0001 4]
+      den = [0.00352 1]
+      DC gain = 4   zeros = 40000   poles = -284.09
+   printed expression after Eq. 41
+      num = [-8.8e-12 -9.56e-08 0 0.025]
+      den = [3.872e-12 1.32e-07 0.001022 0.5]
+      DC gain = 0.05   zeros = [-10839 -524.18 500]   poles = [-22727 -10839 -524.18]
+   -> printed = Eq.32/Eq.40 multiplied out without cancelling.
+
+5) Reference model (Table 8, Eq. 51)
+   I_L,max = 8.000 A, dI_L = 1.600 A, L = 0.3125 mH, dV = 1.600 V, C = 62.50 uF
+   Eq. 31 with Table 8 values (correct)
+      num = [-0.00625 50]
+      den = [4.8828e-08 7.8125e-05 0.625]
+      DC gain = 80   zeros = 8000   poles = [-800+3487.1i -800-3487.1i]
+   Eq. 51 AS PRINTED
+      num = [-0.0625 50]
+      den = [4.88e-08 7.813e-05 0.625]
+      DC gain = 80   zeros = 800   poles = [-800.51+3488.1i -800.51-3488.1i]
+   closed-loop reference model poles, derived : [-457.9+3318.9i -457.9-3318.9i -684.58]
+   closed-loop reference model poles, printed : [-1959.4 182.4+1971.9i 182.4-1971.9i]  (unstable)
+
+6) Controllers
+   single PI Eq.33      Kp = 0.0114     Ki = 2.82     zero at 247.4 rad/s
+   outer PI Eq.42       Kp = 0.15       Ki = 1000     zero at 6667 rad/s
+   inner PI Eq.43       Kp = 0.5        Ki = 5        zero at 10 rad/s
+   reference PI Eq.52   Kp = 5e-06      Ki = 7.5      zero at 1.5e+06 rad/s
+   inner-loop crossover ~ Kp_i*Vout/L = 2e+05 rad/s (31.8 kHz) > fsw = 20 kHz
+estimating frequency response (takes a few minutes in MATLAB) ...
+  w =     10.0 rad/s  |H| =  38.08 dB
+  w =     14.6 rad/s  |H| =  38.08 dB
+  w =     21.2 rad/s  |H| =  38.08 dB
+  w =     30.9 rad/s  |H| =  38.08 dB
+  w =     44.9 rad/s  |H| =  38.09 dB
+  w =     65.4 rad/s  |H| =  38.09 dB
+  w =     95.2 rad/s  |H| =  38.10 dB
+  w =    138.6 rad/s  |H| =  38.11 dB
+  w =    201.8 rad/s  |H| =  38.15 dB
+  w =    293.8 rad/s  |H| =  38.22 dB
+  w =    427.7 rad/s  |H| =  38.37 dB
+  w =    622.7 rad/s  |H| =  38.71 dB
+  w =    906.6 rad/s  |H| =  39.47 dB
+  w =   1319.8 rad/s  |H| =  41.70 dB
+  w =   1921.4 rad/s  |H| =  39.48 dB
+  w =   2193.0 rad/s  |H| =  37.98 dB
+  w =   2312.1 rad/s  |H| =  37.36 dB
+  w =   2383.7 rad/s  |H| =  36.99 dB
+  w =   2455.2 rad/s  |H| =  36.63 dB
+  w =   2574.3 rad/s  |H| =  36.04 dB
+  w =   2797.3 rad/s  |H| =  35.00 dB
+  w =   4072.5 rad/s  |H| =  29.97 dB
+  w =   5928.9 rad/s  |H| =  23.86 dB
+  w =   8631.6 rad/s  |H| =  16.58 dB
+  w =  12566.4 rad/s  |H| =   9.89 dB
+  w =     10.0 rad/s  |H| =  38.06 dB
+  w =     14.6 rad/s  |H| =  38.06 dB
+  w =     21.2 rad/s  |H| =  38.06 dB
+  w =     30.9 rad/s  |H| =  38.06 dB
+  w =     44.9 rad/s  |H| =  38.06 dB
+  w =     65.4 rad/s  |H| =  38.07 dB
+  w =     95.2 rad/s  |H| =  38.07 dB
+  w =    138.6 rad/s  |H| =  38.09 dB
+  w =    201.8 rad/s  |H| =  38.12 dB
+  w =    293.8 rad/s  |H| =  38.19 dB
+  w =    427.7 rad/s  |H| =  38.34 dB
+  w =    622.7 rad/s  |H| =  38.67 dB
+  w =    906.6 rad/s  |H| =  39.42 dB
+  w =   1319.8 rad/s  |H| =  41.23 dB
+  w =   1921.4 rad/s  |H| =  47.10 dB
+  w =   2193.0 rad/s  |H| =  53.82 dB
+  w =   2312.1 rad/s  |H| =  59.73 dB
+  w =   2383.7 rad/s  |H| =  62.57 dB
+  w =   2455.2 rad/s  |H| =  59.34 dB
+  w =   2574.3 rad/s  |H| =  53.05 dB
+  w =   2797.3 rad/s  |H| =  46.40 dB
+  w =   4072.5 rad/s  |H| =  32.43 dB
+  w =   5928.9 rad/s  |H| =  23.86 dB
+  w =   8631.6 rad/s  |H| =  16.59 dB
+  w =  12566.4 rad/s  |H| =   9.90 dB
+fit amp 0.03  : num [-19776 3.2978e+08] den [1 1677.9 4.1086e+06] (fit 76.1%)
+fit amp 0.0005: num [-11235 4.5441e+08] den [1 142.05 5.6817e+06] (fit 100.0%)
+Paper Eq. 2 (printed)                  0.00436   0.00806      68.8     76.44         0     85.18     76.44    0.0305
+Paper Eq. 32 (printed)                 0.004192  0.007791        72     79.94         0     81.28     79.94    0.0151
+Eq. 31 with Table 3 values (correct)   0.0004363   0.05424     13.55       153     91.22     0.177       153  0.001343
+Fitted TF, amp 0.03                    0.0007257  0.004203     72.28     99.64     24.13    0.6904     99.64   0.00176
+Fitted TF, amp 0.0005                  0.0004363   0.05424     13.55     152.9     91.22    0.1731     152.9  0.001343
+Single PI, Eq. 33            C(z) = (0.01140705 + -0.01139295 z^-1)/(1 - z^-1)
+Outer PI, Eq. 42             C(z) = (0.1525 + -0.1475 z^-1)/(1 - z^-1)
+Inner PI, Eq. 43             C(z) = (0.5000125 + -0.4999875 z^-1)/(1 - z^-1)
+Reference-model PI, Eq. 52   C(z) = (2.375e-05 + 1.375e-05 z^-1)/(1 - z^-1)
+reference model poles (derived Eq. 51): [-457.9+3318.9i -457.9-3318.9i -684.58]
+reference model poles (printed Eq. 51): [-1959.4 182.4+1971.9i 182.4-1971.9i]  -> unstable
+derived reference-model step: rise 0.002519 s, settling 0.006545 s, overshoot 0.148 %
+single PI on Printed Eq. 2                stable = 1, poles [-629.59+2887.9i -629.59-2887.9i -155.62]
+single PI on Printed Eq. 32               stable = 1, poles [-421.53+2826.7i -421.53-2826.7i -156.94]
+[Warning: The closed-loop system is unstable.] 
+[> In DynamicSystem/margin (line 88)
+In sec4_design (line 52)
+In run_all (line 10)
+In run (line 112)
+In ci_run (line 55)
+In command_f9f82c9b_13ef_4a21_9286_786d2692bb74 (line 1)] 
+single PI on Correct Eq. 31 (lossless)    stable = 0, poles [52.852+3292.6i 52.852-3292.6i -118.2]
+single PI on Eq. 31 + 10 mOhm loss: stable = 0
+single PI on Eq. 31 + 20 mOhm loss: stable = 1
+single PI on Eq. 31 + 50 mOhm loss: stable = 1
+cascade PI on correct model: poles [-1.9883e+05 -225.73+1044.9i -225.73-1044.9i -10.003]
+gamma = 0.1: theta before 0.2 s = 0.942, before 0.4 s = 0.888, at 0.6 s = 0.822
+gamma = 0.5: theta before 0.2 s = 0.710, before 0.4 s = 0.442, at 0.6 s = 0.151
+gamma = 1.0: theta before 0.2 s = 0.426, before 0.4 s = 0.062, at 0.6 s = 0.185
+Single PI                                    0.0005878       NaN     34.04     41.01     2.533         0     41.01    0.1925
+Cascade PI                                   0.0009778   0.01827     36.04     44.62     11.54         0     44.62   0.00285
+Cascade PI-MRAC (as written)                 0.0009774   0.02182     36.05     44.57     11.43         0     44.57    0.0028
+Cascade PI-MRAC, model-following set-point   0.002174   0.01302     36.01     41.75     4.365         0     41.75    0.0042
+Single PI                                    rise 15.54 ms, settling NaN ms, overshoot 6.4 %
+Cascade PI                                   rise 1.04 ms, settling 15.06 ms, overshoot 43.4 %
+Cascade PI-MRAC (as written)                 rise 1.04 ms, settling 14.91 ms, overshoot 43.5 %
+Cascade PI-MRAC, model-following set-point   rise 1.60 ms, settling 13.29 ms, overshoot 14.1 %
+
+All done in 1.2 min. Results in ../results_matlab
+ci_run(reference) finished in 1.7 min
+  check paper checks (analysis)                  passed
+  check paper checks (matlab_script)             passed
