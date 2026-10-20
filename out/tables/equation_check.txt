@@ -1,0 +1,99 @@
+==============================================================================
+1) Operating point (Eq. 1) and averaged state-space model (Eqs. 3-18)
+==============================================================================
+  D = 0.500
+  A = [[0.0, -5000.0], [1136.3636363636363, -142.04545454545453]]
+  B = [10000.0, 0.0]   C = [0 1]
+  steady state  I_L = 5.0000 A,  V_C = 40.0000 V   (paper Eq. 18: Vdc/((D-1)^2 R) = 5 A, Vdc/(1-D) = 40 V)
+
+==============================================================================
+2) Control-to-output TF  v/d   (Eq. 31 symbolic -> numeric)
+==============================================================================
+  Eq. 31 evaluated with Table 3 values (correct)
+     num = [-2.e-03  8.e+01]
+     den = [1.76e-07 2.50e-05 1.00e+00]
+     DC gain = 80   zeros: 40000   poles: -71.02+2383j, -71.02-2383j
+     wn = 2383.66 rad/s   zeta = 0.0298
+  same TF normalised so that numerator constant = 1
+     num = [-2.5e-05  1.0e+00]
+     den = [2.200e-09 3.125e-07 1.250e-02]
+     DC gain = 80   zeros: 40000   poles: -71.02+2383j, -71.02-2383j
+     wn = 2383.66 rad/s   zeta = 0.0298
+  Eq. 32 AS PRINTED
+     num = [-0.002  1.   ]
+     den = [2.20e-09 2.50e-05 1.25e-02]
+     DC gain = 80   zeros: 500   poles: -10839.5, -524.179
+     wn = 2383.66 rad/s   zeta = 2.384
+  Eq. 2 AS PRINTED (Simulink Control Design estimate)
+     num = [-1.018e+06  4.821e+08]
+     den = [1.000e+00 1.302e+04 6.307e+06]
+     DC gain = 76.4389   zeros: 473.576   poles: -12516.1, -503.911
+     wn = 2511.37 rad/s   zeta = 2.592
+  -> textbook check: RHP zero  R(1-D)^2/L = 40000 rad/s ; resonance (1-D)/sqrt(LC) = 2383.7 rad/s ; zeta = sqrt(L/C)/(2R(1-D)) = 0.0298
+  -> Eq. 32 = Eq. 31 / 80 only for the s^2 term and the constants; the s-terms (-0.002 s, 2.5e-5 s)
+     were NOT divided by 80. This moves the RHP zero from 40 000 to 500 rad/s and turns the
+     lightly damped resonance (zeta ~0.03) into two real poles (~ -524 and -10 840 rad/s).
+
+==============================================================================
+3) Duty -> inductor current TF  i_L/d   (Eq. 39 -> numeric)
+==============================================================================
+  Eq. 39 evaluated (correct)
+     num = [ 0.1408 40.    ]
+     den = [3.52e-07 5.00e-05 2.00e+00]
+     DC gain = 20   zeros: -284.091   poles: -71.02+2383j, -71.02-2383j
+     wn = 2383.66 rad/s   zeta = 0.0298
+  same TF divided by 80 (the paper's apparent normalisation)
+     num = [0.00176 0.5    ]
+     den = [4.40e-09 6.25e-07 2.50e-02]
+     DC gain = 20   zeros: -284.091   poles: -71.02+2383j, -71.02-2383j
+     wn = 2383.66 rad/s   zeta = 0.0298
+  Eq. 40 AS PRINTED
+     num = [1.76e-03 4.00e+01]
+     den = [4.4e-09 5.0e-05 2.5e-02]
+     DC gain = 1600   zeros: -22727.3   poles: -10839.5, -524.179
+     wn = 2383.66 rad/s   zeta = 2.384
+  -> Eq. 40 again divides only some coefficients by 80: DC gain becomes 1600 A/duty instead of 20.
+
+==============================================================================
+4) Inductor current -> output voltage  v/i_L  (Eq. 41)
+==============================================================================
+  Gvd/Gid from Eqs. 31 and 39 (correct, after cancellation)
+     num = [-1.e-04  4.e+00]
+     den = [0.00352 1.     ]
+     DC gain = 4   zeros: 40000   poles: -284.091
+  Printed numeric expression after Eq. 41
+     num = [-8.80e-12 -9.56e-08  0.00e+00  2.50e-02]
+     den = [3.872e-12 1.320e-07 1.022e-03 5.000e-01]
+     DC gain = 0.05   zeros: -10839.5, -524.179, 500   poles: -22727.3, -10839.5, -524.179
+  -> printed expression = Eq.32 / Eq.40 multiplied out without cancelling:
+     Eq32num*Eq40den = [-8.80e-12 -9.56e-08  0.00e+00  2.50e-02]
+     Eq40num*Eq32den = [3.872e-12 1.320e-07 1.022e-03 5.000e-01]
+
+==============================================================================
+5) Reference model (Eqs. 45-50, Table 8, Eq. 51)
+==============================================================================
+  I_L,avg,max = 8.000 A (Table 8: 8)   dI_L = 1.600 A (1.6)   L = 0.3125 mH (0.3125)
+  dV_out = 1.600 V (1.6)   C = 62.50 uF (62.5)
+  Eq. 31 with Table 8 values (correct reference plant)
+     num = [-6.25e-03  5.00e+01]
+     den = [4.882813e-08 7.812500e-05 6.250000e-01]
+     DC gain = 80   zeros: 8000   poles: -800+3487j, -800-3487j
+     wn = 3577.71 rad/s   zeta = 0.2236
+  Eq. 51 AS PRINTED
+     num = [-0.0625 50.    ]
+     den = [4.880e-08 7.813e-05 6.250e-01]
+     DC gain = 80   zeros: 800   poles: -800.5+3488j, -800.5-3488j
+     wn = 3578.74 rad/s   zeta = 0.2237
+  -> denominator and DC gain match; printed numerator s-coefficient is 10x too large
+     (-0.0625 instead of -0.00625): RHP zero at 800 rad/s instead of 8 000 rad/s.
+
+==============================================================================
+6) Controllers
+==============================================================================
+  single PI Eq.33      Kp = 0.0114     Ki = 2.82      PI zero at 247.4 rad/s
+  outer PI Eq.42       Kp = 0.15       Ki = 1000      PI zero at 6667 rad/s
+  inner PI Eq.43       Kp = 0.5        Ki = 5         PI zero at 10 rad/s
+  reference PI Eq.52   Kp = 5e-06      Ki = 7.5       PI zero at 1.5e+06 rad/s
+  Paper text: inner-loop bandwidth chosen 10x the outer loop. Check (high-frequency asymptote
+  i_L/d ~ Vout/(sL) = 4e+05/s):  inner crossover ~ Kp_i*Vout/L = 2e+05 rad/s (= 31.8 kHz)
+  -> that is above the 20 kHz switching frequency, i.e. not realisable with 20 kHz PWM.

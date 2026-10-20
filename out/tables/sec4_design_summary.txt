@@ -1,0 +1,26 @@
+Single PI, Eq. 33            C(z) = (0.01140705 + -0.01139295 z^-1)/(1 - z^-1)
+Outer PI, Eq. 42             C(z) = (0.1525 + -0.1475 z^-1)/(1 - z^-1)
+Inner PI, Eq. 43             C(z) = (0.5000125 + -0.4999875 z^-1)/(1 - z^-1)
+Reference-model PI, Eq. 52   C(z) = (2.375e-05 + 1.375e-05 z^-1)/(1 - z^-1)
+
+Reference model T_m(s) = C_ref G_ref / (1 + C_ref G_ref)
+  derived Eq.51 (num -0.00625 s + 50): poles -684.6, -457.9±3319j  -> stable
+  printed Eq.51 (num -0.0625 s + 50):  poles -1959, 182.4±1972j  -> UNSTABLE
+  Tustin T_m(z): num [-7.422047e-06 -3.994034e-06  7.900374e-06  4.472361e-06]
+                 den [ 1.         -2.99173474  2.98376602 -0.99203032]
+  derived reference-model step: RiseTime=0.002519, SettlingTime=0.006545, SettlingMin=0.9001, SettlingMax=1.001, Overshoot=0.1483, Undershoot=0.7605, Peak=1.001, PeakTime=0.00912
+
+Inner current loop (correct Eq. 39): crossover 2e+05 rad/s = 31.8 kHz, PM 90.0 deg (continuous time).
+  The switching frequency is 20 kHz, so this loop is faster than the PWM itself;
+  it only behaves in simulation because the carrier is compared with the control signal
+  10 times per period (multi-sampled PWM).
+
+Loop analysis (continuous time, D = 0.5, R = 16 ohm):
+  Single PI  | Printed Eq. 2                      | stable   | poles -629.6±2888j, -155.6 | PM 59.4 deg @ 509 rad/s | GM 0.9 dB @ 3036 rad/s
+  Single PI  | Printed Eq. 32                     | stable   | poles -421.5±2827j, -156.9 | PM 51.1 deg @ 668 rad/s | GM 0.7 dB @ 2917 rad/s
+  Single PI  | Correct Eq. 31 (lossless)          | UNSTABLE | poles -118.2, 52.85±3293j | PM -3.8 deg @ 3297 rad/s | GM -6.0 dB @ 2872 rad/s
+  Single PI  | Eq. 31 + 10 mOhm series loss       | UNSTABLE | poles -117.9, 2.523±3289j | PM -0.2 deg @ 3290 rad/s | GM -0.2 dB @ 3269 rad/s
+  Single PI  | Eq. 31 + 20 mOhm series loss       | stable   | poles -117.5, -47.8±3286j | PM 3.5 deg @ 3278 rad/s | GM 3.7 dB @ 3680 rad/s
+  Single PI  | Eq. 31 + 50 mOhm series loss       | stable   | poles -198.8±3269j, -116.5 | PM 15.0 deg @ 3224 rad/s | GM 11.0 dB @ 4855 rad/s
+  Cascade PI | Correct Eqs. 31/39 (lossless)      | stable   | poles -1.988e+05, -225.7±1045j, -10 | PM  | GM 
+  Cascade PI | Printed Eqs. 32/40                 | stable   | poles -1.031e+05, -3.997e+04, -55.11, -10 | PM  | GM 

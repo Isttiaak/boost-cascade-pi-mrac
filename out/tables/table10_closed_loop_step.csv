@@ -1,0 +1,8 @@
+Source,Controller,RiseTime,SettlingTime,SettlingMin,SettlingMax,Overshoot,Undershoot,Peak,PeakTime,Residual oscillation amplitude (V)
+PAPER Table 10,Single PI,0.00059,0.0079,33.69,40.164,0.41,3.16,40.164,0.001,
+PAPER Table 10,Cascade PI,0.0012,0.0064,37.564,44.697,11.7425,0.1,44.697,0.0028,
+PAPER Table 10,Cascade PI-MRAC,0.0014,0.00145,39.7,41.485,3.7125,0.0,41.485,0.0025,
+Recreated (30->40 V step at 0.2 s),Single PI,0.00058777,nan,34.041,41.013,2.5329,0,41.013,0.19245,0.932
+Recreated (30->40 V step at 0.2 s),Cascade PI,0.00097782,0.018265,36.044,44.616,11.541,0,44.616,0.00285,0.007
+Recreated (30->40 V step at 0.2 s),Cascade PI-MRAC (as written),0.00097604,0.014851,36.05,44.554,11.385,0,44.554,0.0028,0.010
+Recreated (30->40 V step at 0.2 s),"Cascade PI-MRAC, model-following set-point",0.0021844,0.018411,36.008,41.652,4.1295,0,41.652,0.00415,0.007

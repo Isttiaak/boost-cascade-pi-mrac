@@ -1,0 +1,5 @@
+Controller,RiseTime (s),SettlingTime (s),Overshoot (%),Undershoot (%)
+Single PI,0.015543,nan,6.36,0
+Cascade PI,0.0010416,0.015062,43.4,0
+Cascade PI-MRAC (as written),0.0010423,0.018166,43.5,0
+"Cascade PI-MRAC, model-following set-point",0.0015971,0.011264,14.1,0.056

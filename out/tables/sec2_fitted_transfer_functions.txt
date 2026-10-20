@@ -1,0 +1,28 @@
+Operating point of the circuit model at D = 0.5: I_L = 5.000 A, V = 40.000 V
+
+Paper Eq. 2 (printed)
+  num = [-1.018e+06  4.821e+08]
+  den = [1.000e+00 1.302e+04 6.307e+06]
+  DC gain = 76.44, zeros = [473.57563851], poles = [-12516.08857744   -503.91142256]
+
+Fitted to switching-model data, amplitude 0.03 (fit 76.1%)
+  num = [-1.97756e+04  3.29774e+08]
+  den = [1.00000e+00 1.67792e+03 4.10856e+06]
+  DC gain = 80.27, zeros = [16675.78807639], poles = [-838.96166138+1845.18417987j -838.96166138-1845.18417987j]
+
+Fitted to switching-model data, amplitude 0.0005 (fit 100.0%)
+  num = [-1.12354e+04  4.54411e+08]
+  den = [1.00000e+00 1.42052e+02 5.68166e+06]
+  DC gain = 79.98, zeros = [40444.69873907], poles = [-71.02623237+2382.5639042j -71.02623237-2382.5639042j]
+
+Averaged small-signal model of the simulated circuit
+  num = [-1.13636e+04  4.54545e+08]
+  den = [1.00000e+00 1.42045e+02 5.68182e+06]
+  DC gain = 80, zeros = [40000.], poles = [-71.02272727+2382.59815202j -71.02272727-2382.59815202j]
+
+Ideal averaged model = Eq. 31 (correct numbers)
+  num = [-1.13636e+04  4.54545e+08]
+  den = [1.00000e+00 1.42045e+02 5.68182e+06]
+  DC gain = 80, zeros = [40000.], poles = [-71.02272727+2382.59815202j -71.02272727-2382.59815202j]
+
+min inductor current during the 0.03 sweep: 0.000 A (0 means the converter entered DCM)

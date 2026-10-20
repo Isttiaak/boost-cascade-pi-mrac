@@ -1,0 +1,9 @@
+Controller,Plant model,Closed-loop poles,Stability,Min phase margin,Min gain margin
+Single PI,Printed Eq. 2,"-629.6±2888j, -155.6",stable,59.4 deg @ 509 rad/s,0.9 dB @ 3036 rad/s
+Single PI,Printed Eq. 32,"-421.5±2827j, -156.9",stable,51.1 deg @ 668 rad/s,0.7 dB @ 2917 rad/s
+Single PI,Correct Eq. 31 (lossless),"-118.2, 52.85±3293j",UNSTABLE,-3.8 deg @ 3297 rad/s,-6.0 dB @ 2872 rad/s
+Single PI,Eq. 31 + 10 mOhm series loss,"-117.9, 2.523±3289j",UNSTABLE,-0.2 deg @ 3290 rad/s,-0.2 dB @ 3269 rad/s
+Single PI,Eq. 31 + 20 mOhm series loss,"-117.5, -47.8±3286j",stable,3.5 deg @ 3278 rad/s,3.7 dB @ 3680 rad/s
+Single PI,Eq. 31 + 50 mOhm series loss,"-198.8±3269j, -116.5",stable,15.0 deg @ 3224 rad/s,11.0 dB @ 4855 rad/s
+Cascade PI,Correct Eqs. 31/39 (lossless),"-1.988e+05, -225.7±1045j, -10",stable,,
+Cascade PI,Printed Eqs. 32/40,"-1.031e+05, -3.997e+04, -55.11, -10",stable,,
